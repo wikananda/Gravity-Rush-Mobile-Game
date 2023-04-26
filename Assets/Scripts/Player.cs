@@ -8,14 +8,19 @@ public class Player : MonoBehaviour
 
     Rigidbody2D rigid;
 
+    // ABILITY PROPERTIES
     int gravityDirection = 1;
     public float jumpForceGrounded = 10f;
     public float jumpForceAir = 20f;
     public float speed = 5f;
     public float maxSpeed = 15f;
+    public float coinMagnetSpeed = 5f;
 
+    // STATE PROPERTIES
     public bool isGrounded = true;
+    public bool coinMagnet = false;
 
+    // GAME PROPERTIES
     public float distance = 0f;
     public int coins = 0;
 
@@ -43,6 +48,7 @@ public class Player : MonoBehaviour
             gravityDirection *= -1;
             rigid.gravityScale *= -1;
             
+            // A workaround for the floating feel problem when jumping
             if(isGrounded)
             {
                 rigid.AddForce(Vector3.up * -jumpForceGrounded * gravityDirection, ForceMode2D.Impulse);
@@ -77,8 +83,8 @@ public class Player : MonoBehaviour
         if(other.gameObject.tag == "Coin")
         {
             coins += 5;
-            //Destroy(other.gameObject);
-            uicontrol.CoinUp(coins);
+            Destroy(other.gameObject);
+            uicontrol.CoinUp(coins); // Call CoinUp method in UIController to update coin text
         }
     }
 }
