@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
         {
             gravityDirection *= -1;
             rigid.gravityScale *= -1;
-            
+
             // A workaround for the floating feel problem when jumping
             if(isGrounded)
             {
