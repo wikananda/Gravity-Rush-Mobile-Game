@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     // STATE PROPERTIES
     public bool isGrounded = true;
     public bool coinMagnet = false;
+    public bool invincible = false;
 
     // GAME PROPERTIES
     public float distance = 0f;
@@ -85,6 +86,14 @@ public class Player : MonoBehaviour
             coins += 5;
             Destroy(other.gameObject);
             uicontrol.CoinUp(coins); // Call CoinUp method in UIController to update coin text
+        }
+        
+        if (other.gameObject.tag == "Obstacle")
+        {
+            if (!invincible)
+            {
+                Debug.Log("Game Over");
+            }
         }
     }
 }
