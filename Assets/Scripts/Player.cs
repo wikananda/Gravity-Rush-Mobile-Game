@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     public bool isGrounded = true;
     public bool coinMagnet = false;
     public bool invincible = false;
+    public bool flash = false; // Flash movement when gravity change
 
     // GAME PROPERTIES
     public float distance = 0f;
@@ -48,9 +49,13 @@ public class Player : MonoBehaviour
         {
             gravityDirection *= -1;
             rigid.gravityScale *= -1;
-
+            
+            if (flash)
+            {
+                rigid.AddForce(Vector3.up * -jumpForceGrounded * 300 * gravityDirection, ForceMode2D.Impulse);
+            }
             // A workaround for the floating feel problem when jumping
-            if(isGrounded)
+            else if(isGrounded)
             {
                 rigid.AddForce(Vector3.up * -jumpForceGrounded * gravityDirection, ForceMode2D.Impulse);
             }
