@@ -22,6 +22,7 @@ public class UIController : MonoBehaviour
         distanceText.text = distance.ToString() + " m";
     }
 
+    // Increase coin count, called from Player.cs
     public void CoinUp(int coin)
     {
         coinText.text = coin.ToString();
