@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 
     Rigidbody2D rigid;
 
-    // ABILITY PROPERTIES
+    // ABILITY PROPERTIES ====================
     int gravityDirection = 1;
     public float jumpForceGrounded = 10f;
     public float jumpForceAir = 20f;
@@ -16,13 +16,18 @@ public class Player : MonoBehaviour
     public float maxSpeed = 15f;
     public float coinMagnetSpeed = 5f;
 
-    // STATE PROPERTIES
+    // STATE PROPERTIES =======================
     public bool isGrounded = true;
     public bool coinMagnet = false;
     public bool invincible = false;
     public bool flash = false; // Flash movement when gravity change
+    
+    // Shield properties
+    public int foodEaten = 0;
+    public bool shield = false;
+    public float shieldDuration = 5f;
 
-    // GAME PROPERTIES
+    // GAME PROPERTIES =====================
     public float distance = 0f;
     public int coins = 0;
 
@@ -30,11 +35,30 @@ public class Player : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody2D>();
         uicontrol.CoinUp(coins);
+        foodEaten = 0;
     }
 
     void Update()
     {
         JumpGravity();
+
+        if (foodEaten >= 3)
+        {
+            shield = true;
+            foodEaten = 0;
+        }
+
+        if (shield)
+        {
+            shieldDuration -= Time.deltaTime;
+            Debug.Log("Shield active...");
+            if (shieldDuration <= 0)
+            {
+                shield = false;
+                shieldDuration = 5f;
+                Debug.Log("Shield deactivated...");
+            }
+        }
     }
 
     void FixedUpdate()
@@ -99,6 +123,13 @@ public class Player : MonoBehaviour
             {
                 Debug.Log("Game Over");
             }
+        }
+
+        if (other.gameObject.tag == "Food")
+        {
+            Debug.Log("Eating...");
+            foodEaten++;
+            uicontrol.CoinUp(10);
         }
     }
 }
