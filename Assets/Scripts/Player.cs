@@ -124,6 +124,11 @@ public class Player : MonoBehaviour
             {
                 Debug.Log("Game Over");
             }
+
+            if (shield)
+            {
+                Destroy(other.gameObject);
+            }
         }
 
         if (other.gameObject.tag == "Food")
