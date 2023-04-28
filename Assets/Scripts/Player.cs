@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
         {
             shield = true;
             foodEaten = 0;
+            shieldDuration = 5f;
         }
 
         if (shield)
