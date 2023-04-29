@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     public bool coinMagnet = false;
     public bool invincible = false;
     public bool flash = false; // Flash movement when gravity change
+    public int rocketCount = 0;
     
     // Shield properties
     public int foodEaten = 0;
@@ -34,7 +35,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
-        uicontrol.CoinUp(coins);
+        uicontrol.ScoreUp(coins);
         foodEaten = 0;
     }
 
@@ -92,6 +93,16 @@ public class Player : MonoBehaviour
                 rigid.AddForce(Vector3.up * -jumpForceAir * gravityDirection, ForceMode2D.Impulse);
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            if (rocketCount > 0)
+            {
+                rocketCount--;
+                uicontrol.RocketUp(rocketCount);
+                Debug.Log("Firing rocket...");
+            }
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -118,7 +129,7 @@ public class Player : MonoBehaviour
         {
             coins += 5;
             Destroy(other.gameObject);
-            uicontrol.CoinUp(coins); // Call CoinUp method in UIController to update coin text
+            uicontrol.ScoreUp(coins); // Call CoinUp method in UIController to update coin text
         }
         
         if (other.gameObject.tag == "Obstacle")
@@ -138,7 +149,7 @@ public class Player : MonoBehaviour
         {
             Debug.Log("Eating...");
             foodEaten++;
-            uicontrol.CoinUp(10);
+            uicontrol.ScoreUp(10);
         }
 
         if (other.gameObject.tag == "Shield")
@@ -146,7 +157,16 @@ public class Player : MonoBehaviour
             Debug.Log("Shield acquired...");
             shield = true;
             shieldDuration = 15f;
-            uicontrol.CoinUp(15);
+            uicontrol.ScoreUp(15);
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.tag == "Rocket" && rocketCount < 4)
+        {
+            Debug.Log("Rocket acquired...");
+            rocketCount++;
+            uicontrol.RocketUp(rocketCount);
+            uicontrol.ScoreUp(10);
             Destroy(other.gameObject);
         }
     }

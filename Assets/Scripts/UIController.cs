@@ -7,13 +7,13 @@ public class UIController : MonoBehaviour
 {
     Player player;
     TextMeshProUGUI distanceText;
-    TextMeshProUGUI coinText;
+    TextMeshProUGUI scoreText;
     TextMeshProUGUI rocketText;
     void Awake()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
         distanceText = GameObject.Find("DistanceText").GetComponent<TextMeshProUGUI>();
-        coinText = GameObject.Find("CoinText").GetComponent<TextMeshProUGUI>();
+        scoreText = GameObject.Find("CoinText").GetComponent<TextMeshProUGUI>();
         rocketText = GameObject.Find("RocketText").GetComponent<TextMeshProUGUI>();
     }
 
@@ -25,8 +25,14 @@ public class UIController : MonoBehaviour
     }
 
     // Increase coin count, called from Player.cs
-    public void CoinUp(int coin)
+    public void ScoreUp(int score)
     {
-        coinText.text = coin.ToString();
+        scoreText.text = score.ToString();
+    }
+
+    // Increase rocket count, called from Player.cs
+    public void RocketUp(int rocket)
+    {
+        rocketText.text = rocket.ToString();
     }
 }
