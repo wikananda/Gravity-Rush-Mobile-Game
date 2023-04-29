@@ -8,11 +8,13 @@ public class UIController : MonoBehaviour
     Player player;
     TextMeshProUGUI distanceText;
     TextMeshProUGUI coinText;
+    TextMeshProUGUI rocketText;
     void Awake()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
         distanceText = GameObject.Find("DistanceText").GetComponent<TextMeshProUGUI>();
         coinText = GameObject.Find("CoinText").GetComponent<TextMeshProUGUI>();
+        rocketText = GameObject.Find("RocketText").GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame

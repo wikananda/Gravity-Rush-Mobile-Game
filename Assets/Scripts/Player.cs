@@ -46,7 +46,10 @@ public class Player : MonoBehaviour
         {
             shield = true;
             foodEaten = 0;
-            shieldDuration = 5f;
+            if (shieldDuration <= 5)
+            {
+                shieldDuration = 5f;
+            }
         }
 
         if (shield)
@@ -136,6 +139,15 @@ public class Player : MonoBehaviour
             Debug.Log("Eating...");
             foodEaten++;
             uicontrol.CoinUp(10);
+        }
+
+        if (other.gameObject.tag == "Shield")
+        {
+            Debug.Log("Shield acquired...");
+            shield = true;
+            shieldDuration = 15f;
+            uicontrol.CoinUp(15);
+            Destroy(other.gameObject);
         }
     }
 }

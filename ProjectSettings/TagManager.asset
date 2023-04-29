@@ -8,6 +8,7 @@ TagManager:
   - Coin
   - Obstacle
   - Food
+  - Shield
   layers:
   - Default
   - TransparentFX
