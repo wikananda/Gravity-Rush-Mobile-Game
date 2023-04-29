@@ -30,12 +30,10 @@ public class Player : MonoBehaviour
 
     // GAME PROPERTIES =====================
     public float distance = 0f;
-    public int coins = 0;
 
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
-        uicontrol.ScoreUp(coins);
         foodEaten = 0;
     }
 
@@ -127,9 +125,8 @@ public class Player : MonoBehaviour
     {
         if(other.gameObject.tag == "Coin")
         {
-            coins += 5;
             Destroy(other.gameObject);
-            uicontrol.ScoreUp(coins); // Call CoinUp method in UIController to update coin text
+            uicontrol.ScoreUp(5); // Call CoinUp method in UIController to update coin text
         }
         
         if (other.gameObject.tag == "Obstacle")
@@ -142,6 +139,7 @@ public class Player : MonoBehaviour
             if (shield)
             {
                 Destroy(other.gameObject);
+                uicontrol.ScoreUp(10);
             }
         }
 

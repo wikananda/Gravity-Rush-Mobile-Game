@@ -27,6 +27,8 @@ public class UIController : MonoBehaviour
     // Increase coin count, called from Player.cs
     public void ScoreUp(int score)
     {
+        int tempScore = int.Parse(scoreText.text);
+        score += tempScore;
         scoreText.text = score.ToString();
     }
 
