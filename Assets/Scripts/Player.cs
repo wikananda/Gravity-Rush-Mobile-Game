@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] UIController uicontrol;
+    [SerializeField] GameObject rocket;
 
     Rigidbody2D rigid;
 
@@ -99,8 +100,16 @@ public class Player : MonoBehaviour
                 rocketCount--;
                 uicontrol.RocketUp(rocketCount);
                 Debug.Log("Firing rocket...");
+                RocketLaunch();
             }
         }
+    }
+
+    void RocketLaunch()
+    {
+        Vector3 pos = transform.position;
+        pos.x += 1;
+        Instantiate(rocket, pos, Quaternion.Euler(0, 0, 90));
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -109,6 +118,7 @@ public class Player : MonoBehaviour
         {
             isGrounded = true;
             Debug.Log("Grounded");
+            return;
         }
     }
 
@@ -118,6 +128,7 @@ public class Player : MonoBehaviour
         {
             isGrounded = false;
             Debug.Log("Not Grounded");
+            return;
         }
     }
 
@@ -127,6 +138,7 @@ public class Player : MonoBehaviour
         {
             Destroy(other.gameObject);
             uicontrol.ScoreUp(5); // Call CoinUp method in UIController to update coin text
+            return;
         }
         
         if (other.gameObject.tag == "Obstacle")
@@ -141,6 +153,7 @@ public class Player : MonoBehaviour
                 Destroy(other.gameObject);
                 uicontrol.ScoreUp(10);
             }
+            return;
         }
 
         if (other.gameObject.tag == "Food")
@@ -148,6 +161,7 @@ public class Player : MonoBehaviour
             Debug.Log("Eating...");
             foodEaten++;
             uicontrol.ScoreUp(10);
+            return;
         }
 
         if (other.gameObject.tag == "Shield")
@@ -157,6 +171,7 @@ public class Player : MonoBehaviour
             shieldDuration = 15f;
             uicontrol.ScoreUp(15);
             Destroy(other.gameObject);
+            return;
         }
 
         if (other.gameObject.tag == "Rocket" && rocketCount < 4)
@@ -165,7 +180,8 @@ public class Player : MonoBehaviour
             rocketCount++;
             uicontrol.RocketUp(rocketCount);
             uicontrol.ScoreUp(10);
-            Destroy(other.gameObject);
+            // Destroy(other.gameObject);
+            return;
         }
     }
 }

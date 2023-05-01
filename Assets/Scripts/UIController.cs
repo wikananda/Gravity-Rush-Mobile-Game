@@ -13,7 +13,7 @@ public class UIController : MonoBehaviour
     {
         player = GameObject.Find("Player").GetComponent<Player>();
         distanceText = GameObject.Find("DistanceText").GetComponent<TextMeshProUGUI>();
-        scoreText = GameObject.Find("CoinText").GetComponent<TextMeshProUGUI>();
+        scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
         rocketText = GameObject.Find("RocketText").GetComponent<TextMeshProUGUI>();
     }
 
