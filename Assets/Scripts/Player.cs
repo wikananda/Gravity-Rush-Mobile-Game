@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject rocket;
 
     Rigidbody2D rigid;
+    Vector3 initialPos;
+    float initialXPos;
 
     // ABILITY PROPERTIES ====================
     int gravityDirection = 1;
@@ -37,6 +39,8 @@ public class Player : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody2D>();
         foodEaten = 0;
+        initialPos = transform.position;
+        initialXPos = initialPos.x;
     }
 
     void Update()
@@ -69,6 +73,13 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         distance += speed * Time.fixedDeltaTime;
+
+        if (initialPos.x != transform.position.x)
+        {
+            Vector3 targetPos = transform.position;
+            targetPos.x = initialXPos;
+            transform.position = Vector3.Lerp(transform.position, targetPos, 0.1f);
+        }
     }
 
 
