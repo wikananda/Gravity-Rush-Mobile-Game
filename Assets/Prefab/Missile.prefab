@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 8465498921814091338}
   - component: {fileID: 8465498921814091341}
   - component: {fileID: 8465498921814091340}
+  - component: {fileID: 8722985208291322527}
+  - component: {fileID: 6588626499790441891}
   m_Layer: 0
   m_Name: Missile
   m_TagString: Missile
@@ -102,6 +104,34 @@ CapsuleCollider2D:
   m_Offset: {x: 3.647088e-15, y: -0.066374734}
   m_Size: {x: 0.87, y: 1.8672482}
   m_Direction: 0
+--- !u!70 &8722985208291322527
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8465498921814091343}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1.0000002, y: 2.0000005}
+  m_Direction: 0
+--- !u!114 &6588626499790441891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8465498921814091343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4602151eabf28c64f82b19276612afa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8465498921886084173
 GameObject:
   m_ObjectHideFlags: 0

@@ -148,7 +148,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 72418548}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.84, y: -3.01, z: 0}
+  m_LocalPosition: {x: 12.47, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -169,6 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coinPrefab: {fileID: 6514534192960035113, guid: 6afc322838d905e458740634a10eb5e4, type: 3}
   player: {fileID: 1602437869}
+  missilePrefab: {fileID: 8465498921814091343, guid: 6aa391b32196758418cb914b06febddf, type: 3}
 --- !u!1 &137784913
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,6 +643,10 @@ PrefabInstance:
     - target: {fileID: 6514534192960035113, guid: 6afc322838d905e458740634a10eb5e4, type: 3}
       propertyPath: m_Name
       value: Coin (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6514534192960035113, guid: 6afc322838d905e458740634a10eb5e4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6514534192960035118, guid: 6afc322838d905e458740634a10eb5e4, type: 3}
       propertyPath: m_RootOrder
@@ -1163,7 +1168,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1111684413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1343,6 +1348,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Coin (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6514534192960035113, guid: 6afc322838d905e458740634a10eb5e4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6514534192960035118, guid: 6afc322838d905e458740634a10eb5e4, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -1444,6 +1453,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RocketItem
       objectReference: {fileID: 0}
+    - target: {fileID: 2334213697863279860, guid: ec67f4dc3f577074caad1bd9ec1053b1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec67f4dc3f577074caad1bd9ec1053b1, type: 3}
 --- !u!1001 &1457904041
@@ -1500,6 +1513,10 @@ PrefabInstance:
     - target: {fileID: 2334213697863279860, guid: b6f333e20ec7a8a4881de8ef3317b8d1, type: 3}
       propertyPath: m_Name
       value: Shield
+      objectReference: {fileID: 0}
+    - target: {fileID: 2334213697863279860, guid: b6f333e20ec7a8a4881de8ef3317b8d1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b6f333e20ec7a8a4881de8ef3317b8d1, type: 3}
@@ -1932,6 +1949,7 @@ MonoBehaviour:
   invincible: 0
   flash: 0
   rocketCount: 0
+  missileBounce: 40
   foodEaten: 0
   shield: 0
   shieldDuration: 5
@@ -2975,6 +2993,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Food
       objectReference: {fileID: 0}
+    - target: {fileID: 2334213697863279860, guid: 59989094ae7d7b7458945b63ee8f7c00, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59989094ae7d7b7458945b63ee8f7c00, type: 3}
 --- !u!1001 &6514534192850732195
@@ -2987,6 +3009,10 @@ PrefabInstance:
     - target: {fileID: 6514534192960035113, guid: 6afc322838d905e458740634a10eb5e4, type: 3}
       propertyPath: m_Name
       value: Coin
+      objectReference: {fileID: 0}
+    - target: {fileID: 6514534192960035113, guid: 6afc322838d905e458740634a10eb5e4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6514534192960035118, guid: 6afc322838d905e458740634a10eb5e4, type: 3}
       propertyPath: m_RootOrder
@@ -3034,3 +3060,60 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6afc322838d905e458740634a10eb5e4, type: 3}
+--- !u!1001 &8465498922519817486
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8465498921814091338, guid: 6aa391b32196758418cb914b06febddf, type: 3}
+      propertyPath: m_RootOrder
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8465498921814091338, guid: 6aa391b32196758418cb914b06febddf, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 8465498921814091338, guid: 6aa391b32196758418cb914b06febddf, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 8465498921814091338, guid: 6aa391b32196758418cb914b06febddf, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8465498921814091338, guid: 6aa391b32196758418cb914b06febddf, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8465498921814091338, guid: 6aa391b32196758418cb914b06febddf, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8465498921814091338, guid: 6aa391b32196758418cb914b06febddf, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8465498921814091338, guid: 6aa391b32196758418cb914b06febddf, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8465498921814091338, guid: 6aa391b32196758418cb914b06febddf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8465498921814091338, guid: 6aa391b32196758418cb914b06febddf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8465498921814091338, guid: 6aa391b32196758418cb914b06febddf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8465498921814091343, guid: 6aa391b32196758418cb914b06febddf, type: 3}
+      propertyPath: m_Name
+      value: Missile
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6aa391b32196758418cb914b06febddf, type: 3}

@@ -126,6 +126,7 @@ public class Player : MonoBehaviour
         {
             rigid.AddForce(Vector3.up * missileBounce * gravityDirection, ForceMode2D.Impulse);
             Destroy(collision.gameObject);
+            return;
         }
     }
 
