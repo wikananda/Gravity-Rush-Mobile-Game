@@ -23,7 +23,8 @@ public class Player : MonoBehaviour
     public bool invincible = false;
     public bool flash = false; // Flash movement when gravity change
     public int rocketCount = 0;
-    
+    // Missile properties
+    public float missileBounce = 30f;
     // Shield properties
     public int foodEaten = 0;
     public bool shield = false;
@@ -119,6 +120,12 @@ public class Player : MonoBehaviour
             isGrounded = true;
             Debug.Log("Grounded");
             return;
+        }
+
+        if(collision.gameObject.tag == "Missile")
+        {
+            rigid.AddForce(Vector3.up * missileBounce * gravityDirection, ForceMode2D.Impulse);
+            Destroy(collision.gameObject);
         }
     }
 
