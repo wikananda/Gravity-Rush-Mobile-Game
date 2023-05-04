@@ -30,7 +30,7 @@ public class SystemTester : MonoBehaviour
 
     public void SpawnMissile()
     {
-        Instantiate(missilePrefab, new Vector3(17,3,0), Quaternion.Euler(0, 0, 90));
+        Instantiate(missilePrefab, new Vector3(15,3,0), Quaternion.Euler(0, 0, 90));
         Instantiate(missilePrefab, new Vector3(12,0,0), Quaternion.Euler(0, 0, 90));
         Instantiate(missilePrefab, new Vector3(14,-3,0), Quaternion.Euler(0, 0, 90));
     }

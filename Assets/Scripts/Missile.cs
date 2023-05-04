@@ -10,9 +10,9 @@ public class Missile : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, transform.position + Vector3.left * speed, 0.2f);
     }
 
-     private void OnCollisionEnter2D(Collision2D collision) 
+     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if (collision.gameObject.tag == "Despawn")
+        if (other.gameObject.tag == "MissileDespawn")
         {
             Destroy(gameObject);
             Debug.Log("Missile Despawned");

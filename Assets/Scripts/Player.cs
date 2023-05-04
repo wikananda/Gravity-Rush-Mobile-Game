@@ -135,7 +135,18 @@ public class Player : MonoBehaviour
 
         if(collision.gameObject.tag == "Missile")
         {
-            rigid.AddForce(Vector3.up * missileBounce * gravityDirection, ForceMode2D.Impulse);
+            Vector3 normal = (transform.position - collision.transform.position);
+            normal.x = 0;
+            normal.z = 0;
+            if (normal.y > 0)
+            {
+                normal.y = 1;
+            }
+            else if (normal.y < 0)
+            {
+                normal.y = -1;
+            }
+            rigid.AddForce(normal * missileBounce, ForceMode2D.Impulse);
             Destroy(collision.gameObject);
             return;
         }
