@@ -63,8 +63,8 @@ public class Player : MonoBehaviour
             Debug.Log("Shield active...");
             if (shieldDuration <= 0)
             {
-                shield = false;
                 shieldDuration = 5f;
+                shield = false;
                 Debug.Log("Shield deactivated...");
             }
         }
@@ -92,7 +92,21 @@ public class Player : MonoBehaviour
             
             if (flash)
             {
-                rigid.AddForce(Vector3.up * -jumpForceGrounded * 300 * gravityDirection, ForceMode2D.Impulse);
+                Vector3 upPos = GameObject.Find("UpPos").transform.position;
+                Vector3 downPos = GameObject.Find("DownPos").transform.position;
+
+                if (gravityDirection < 0)
+                {
+                    transform.position = new Vector3(transform.position.x, upPos.y, 0);
+                }
+                else
+                {
+                    transform.position = new Vector3(transform.position.x, downPos.y, 0);
+                }
+
+                shieldDuration = 1f;
+                shield = true; // Give mini shield during teleporting
+                // rigid.AddForce(Vector3.up * -jumpForceGrounded * 300 * gravityDirection, ForceMode2D.Impulse);
             }
             // A workaround for the floating feel problem when jumping
             else if(isGrounded)
@@ -181,6 +195,8 @@ public class Player : MonoBehaviour
             if (shield)
             {
                 Destroy(other.gameObject);
+                string objectName = other.gameObject.name;
+                Debug.Log("Destroyed with shield : " + objectName);
                 uicontrol.ScoreUp(10);
             }
             return;
