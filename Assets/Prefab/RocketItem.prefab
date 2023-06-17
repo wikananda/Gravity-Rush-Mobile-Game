@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2334213697863279857}
   - component: {fileID: 2334213697863279862}
   - component: {fileID: 2334213697863279863}
+  - component: {fileID: 4134256216620789989}
   m_Layer: 0
   m_Name: RocketItem
   m_TagString: Rocket
@@ -101,3 +102,17 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.3
+--- !u!114 &4134256216620789989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2334213697863279860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aacd2d46f4ea8f4184ed29a6f1f4c5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parallaxDepth: 2.6
+  useTexture: 0
