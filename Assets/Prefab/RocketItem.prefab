@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 2334213697863279857}
   - component: {fileID: 2334213697863279862}
   - component: {fileID: 2334213697863279863}
-  - component: {fileID: 4134256216620789989}
+  - component: {fileID: 5536975378509944581}
+  - component: {fileID: 3966513700411920008}
   m_Layer: 0
   m_Name: RocketItem
   m_TagString: Rocket
@@ -102,7 +103,28 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.3
---- !u!114 &4134256216620789989
+--- !u!50 &5536975378509944581
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2334213697863279860}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!114 &3966513700411920008
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -111,8 +133,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2334213697863279860}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aacd2d46f4ea8f4184ed29a6f1f4c5c, type: 3}
+  m_Script: {fileID: 11500000, guid: ebe02a8696418f449a7be72a36f5758f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxDepth: 2.6
-  useTexture: 0
+  speed: 4.5

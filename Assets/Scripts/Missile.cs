@@ -12,7 +12,7 @@ public class Missile : MonoBehaviour
 
      private void OnTriggerEnter2D(Collider2D other) 
     {
-        if (other.gameObject.tag == "MissileDespawn")
+        if (other.gameObject.tag == "Despawn")
         {
             Destroy(gameObject);
             Debug.Log("Missile Despawned");
