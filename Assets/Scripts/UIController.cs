@@ -9,12 +9,14 @@ public class UIController : MonoBehaviour
     TextMeshProUGUI distanceText;
     TextMeshProUGUI scoreText;
     TextMeshProUGUI rocketText;
+    TextMeshProUGUI speedDebug;
     void Awake()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
         distanceText = GameObject.Find("DistanceText").GetComponent<TextMeshProUGUI>();
         scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
         rocketText = GameObject.Find("RocketText").GetComponent<TextMeshProUGUI>();
+        speedDebug = GameObject.Find("SpeedDebug").GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
@@ -22,6 +24,7 @@ public class UIController : MonoBehaviour
     {
         int distance = Mathf.FloorToInt(player.distance);
         distanceText.text = distance.ToString() + " m";
+        speedDebug.text = player.speed.ToString() + " km/s";
     }
 
     // Increase coin count, called from Player.cs

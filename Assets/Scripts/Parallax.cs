@@ -21,7 +21,7 @@ public class Parallax : MonoBehaviour
 
     void FixedUpdate()
     {
-        parallaxSpeed = player.speed * parallaxDepth / (10 * initialSpeed);
+        parallaxSpeed = player.speed * parallaxDepth / (12 * initialSpeed);
         meshRenderer.material.mainTextureOffset += new Vector2(parallaxSpeed * Time.deltaTime, 0);
     }
 }

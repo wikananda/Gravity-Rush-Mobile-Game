@@ -17,9 +17,12 @@ public class Player : MonoBehaviour
     public float jumpForceAir = 20f;
     public float speed = 5f;
     public float maxSpeed = 15f;
+    public float acceleration = 1f;
     public float coinMagnetSpeed = 5f;
 
     // STATE PROPERTIES =======================
+    public int level = 1;
+    public int speedLevel = 1;
     public bool isGrounded = true;
     public bool coinMagnet = false;
     public bool invincible = false;
@@ -41,11 +44,21 @@ public class Player : MonoBehaviour
         foodEaten = 0;
         initialPos = transform.position;
         initialXPos = initialPos.x;
+        level = 1;
     }
 
     void Update()
     {
+        Debug.Log(jumpForceGrounded * level * 0.7f);
+        Debug.Log(jumpForceAir * level);
+
         JumpGravity();
+        speed += acceleration * Time.deltaTime / 12f;
+
+        if (speed > maxSpeed)
+        {
+            speed = maxSpeed;
+        }
 
         if (foodEaten >= 3)
         {
@@ -68,11 +81,24 @@ public class Player : MonoBehaviour
                 Debug.Log("Shield deactivated...");
             }
         }
+
+        if (speed < 8f)
+        {
+            level = 1;
+        }
+        else if (speed < 12f)
+        {
+            level = 2;
+        }
+        else
+        {
+            level = 3;
+        }
     }
 
     void FixedUpdate()
     {
-        distance += speed * Time.fixedDeltaTime;
+        distance += speed * Time.fixedDeltaTime / 1.2f;
 
         if (initialPos.x != transform.position.x)
         {
@@ -111,11 +137,11 @@ public class Player : MonoBehaviour
             // A workaround for the floating feel problem when jumping
             else if(isGrounded)
             {
-                rigid.AddForce(Vector3.up * -jumpForceGrounded * gravityDirection, ForceMode2D.Impulse);
+                rigid.AddForce(Vector3.up * -jumpForceGrounded * level * .7f * gravityDirection, ForceMode2D.Impulse);
             }
             else
             {
-                rigid.AddForce(Vector3.up * -jumpForceAir * gravityDirection, ForceMode2D.Impulse);
+                rigid.AddForce(Vector3.up * -jumpForceAir * level * gravityDirection, ForceMode2D.Impulse);
             }
         }
 
@@ -161,6 +187,7 @@ public class Player : MonoBehaviour
                 normal.y = -1;
             }
             rigid.AddForce(normal * missileBounce, ForceMode2D.Impulse);
+            uicontrol.ScoreUp(10 * level);
             Destroy(collision.gameObject);
             return;
         }
@@ -181,7 +208,7 @@ public class Player : MonoBehaviour
         if(other.gameObject.tag == "Coin")
         {
             Destroy(other.gameObject);
-            uicontrol.ScoreUp(5); // Call CoinUp method in UIController to update coin text
+            uicontrol.ScoreUp(5 * level); // Call CoinUp method in UIController to update coin text
             return;
         }
         
@@ -197,7 +224,7 @@ public class Player : MonoBehaviour
                 Destroy(other.gameObject);
                 string objectName = other.gameObject.name;
                 Debug.Log("Destroyed with shield : " + objectName);
-                uicontrol.ScoreUp(10);
+                uicontrol.ScoreUp(10 * level);
             }
             return;
         }
@@ -206,7 +233,7 @@ public class Player : MonoBehaviour
         {
             Debug.Log("Eating...");
             foodEaten++;
-            uicontrol.ScoreUp(10);
+            uicontrol.ScoreUp(10 * level);
             return;
         }
 
@@ -215,7 +242,7 @@ public class Player : MonoBehaviour
             Debug.Log("Shield acquired...");
             shield = true;
             shieldDuration = 15f;
-            uicontrol.ScoreUp(15);
+            uicontrol.ScoreUp(15 * level);
             Destroy(other.gameObject);
             return;
         }
@@ -225,8 +252,8 @@ public class Player : MonoBehaviour
             Debug.Log("Rocket acquired...");
             rocketCount++;
             uicontrol.RocketUp(rocketCount);
-            uicontrol.ScoreUp(10);
-            // Destroy(other.gameObject);
+            uicontrol.ScoreUp(10 * level);
+            Destroy(other.gameObject);
             return;
         }
     }
