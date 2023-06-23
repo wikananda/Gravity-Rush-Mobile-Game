@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class ObjectMovement : MonoBehaviour
 {
+    Player player;
     public float speed = 1f;
+
+    void Start()
+    {
+        player = GameObject.Find("Player").GetComponent<Player>();
+        speed = player.speed / 7;
+    }
 
     void Update()
     {

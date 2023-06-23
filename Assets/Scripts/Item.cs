@@ -13,6 +13,7 @@ public class Item : MonoBehaviour
     {
         player = GameObject.Find("Player").GetComponent<Player>();
         initialSpeed = player.speed;
+        speed = player.speed / 2;
     }
 
     // Update is called once per frame

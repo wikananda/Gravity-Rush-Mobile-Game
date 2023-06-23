@@ -12,15 +12,24 @@ public class Coin : MonoBehaviour
         player = GameObject.Find("Player").GetComponent<Player>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (player.coinMagnet)
         {
-            speed = player.coinMagnetSpeed * Time.deltaTime;
+            speed = player.coinMagnetSpeed * Time.fixedDeltaTime;
             if (Vector3.Distance(transform.position, player.transform.position) < 5.5f)
             {
                 transform.position = Vector3.Lerp(transform.position, player.transform.position, speed);
             }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Despawn")
+        {
+            Destroy(gameObject);
+            Debug.Log("Coin Despawned");
         }
     }
 }

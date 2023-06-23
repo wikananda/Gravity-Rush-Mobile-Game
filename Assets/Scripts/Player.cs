@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
     public bool flash = false; // Flash movement when gravity change
     public int rocketCount = 0;
     // Missile properties
-    public float missileBounce = 30f;
+    public float missileBounce = 80f;
     // Shield properties
     public int foodEaten = 0;
     public bool shield = false;
@@ -49,8 +49,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(jumpForceGrounded * level * 0.7f);
-        Debug.Log(jumpForceAir * level);
+        // Debug.Log(jumpForceGrounded * level * 0.7f);
+        // Debug.Log(jumpForceAir * level);
 
         JumpGravity();
         speed += acceleration * Time.deltaTime / 12f;
@@ -82,17 +82,21 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (speed < 8f)
-        {
-            level = 1;
-        }
-        else if (speed < 12f)
+        if (speed > 8f && speed < 12f)
         {
             level = 2;
+            rigid.gravityScale = 10 * gravityDirection;
+            missileBounce = 90f;
+            jumpForceAir = 40f;
+            jumpForceGrounded = 25f;
         }
-        else
+        else if (speed > 12f)
         {
             level = 3;
+            rigid.gravityScale = 13 * gravityDirection;
+            missileBounce = 115f;
+            jumpForceAir = 60f;
+            jumpForceGrounded = 25f;
         }
     }
 
@@ -137,11 +141,11 @@ public class Player : MonoBehaviour
             // A workaround for the floating feel problem when jumping
             else if(isGrounded)
             {
-                rigid.AddForce(Vector3.up * -jumpForceGrounded * level * .7f * gravityDirection, ForceMode2D.Impulse);
+                rigid.AddForce(Vector3.up * -jumpForceGrounded * gravityDirection, ForceMode2D.Impulse);
             }
             else
             {
-                rigid.AddForce(Vector3.up * -jumpForceAir * level * gravityDirection, ForceMode2D.Impulse);
+                rigid.AddForce(Vector3.up * -jumpForceAir * gravityDirection, ForceMode2D.Impulse);
             }
         }
 
