@@ -82,6 +82,7 @@ public class Player : MonoBehaviour
             if (shieldDuration <= 5)
             {
                 shieldDuration = 5f;
+                shieldCount = 1;
             }
         }
 
