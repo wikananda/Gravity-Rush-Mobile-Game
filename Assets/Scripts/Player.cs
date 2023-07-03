@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     // Shield properties
     public int foodEaten = 0;
     public bool shield = false;
+    public int shieldCount = 1;
     public float shieldDuration = 5f;
 
     // GAME PROPERTIES =====================
@@ -76,6 +77,7 @@ public class Player : MonoBehaviour
             Debug.Log("Shield active...");
             if (shieldDuration <= 0)
             {
+                shieldCount = 1;
                 shieldDuration = 5f;
                 shield = false;
                 Debug.Log("Shield deactivated...");
@@ -225,6 +227,11 @@ public class Player : MonoBehaviour
 
             if (shield)
             {
+                shieldCount--;
+                if(shieldCount == 0){
+                    shield = false;
+                    shieldDuration = 5f;
+                }
                 Destroy(other.gameObject);
                 string objectName = other.gameObject.name;
                 Debug.Log("Destroyed with shield : " + objectName);
@@ -246,6 +253,7 @@ public class Player : MonoBehaviour
             Debug.Log("Shield acquired...");
             shield = true;
             shieldDuration = 15f;
+            shieldCount = 1;
             uicontrol.ScoreUp(15 * level);
             Destroy(other.gameObject);
             return;
