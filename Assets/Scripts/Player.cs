@@ -15,8 +15,8 @@ public class Player : MonoBehaviour
     int gravityDirection = 1;
     public float jumpForceGrounded = 10f;
     public float jumpForceAir = 20f;
-    public float speed = 5f;
-    public float maxSpeed = 15f;
+    public float speed = 7f;
+    public float maxSpeed = 17f;
     public float acceleration = 1f;
     public float coinMagnetSpeed = 5f;
 
@@ -66,6 +66,15 @@ public class Player : MonoBehaviour
             return;
         }
 
+        distance += speed * Time.fixedDeltaTime / 1.2f;
+
+        if (initialPos.x != transform.position.x)
+        {
+            Vector3 targetPos = transform.position;
+            targetPos.x = initialXPos;
+            transform.position = Vector3.Lerp(transform.position, targetPos, 0.1f);
+        }
+
         JumpGravity();
         speed += acceleration * Time.deltaTime / 12f;
 
@@ -96,33 +105,21 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (speed > 8f && speed < 12f)
+        if (speed > 10f && speed < 14f)
         {
             level = 2;
             rigid.gravityScale = 10 * gravityDirection;
             missileBounce = 90f;
-            jumpForceAir = 40f;
-            jumpForceGrounded = 25f;
+            jumpForceAir = 45f;
+            jumpForceGrounded = 30f;
         }
-        else if (speed > 12f)
+        else if (speed > 14f)
         {
             level = 3;
             rigid.gravityScale = 13 * gravityDirection;
             missileBounce = 115f;
-            jumpForceAir = 60f;
-            jumpForceGrounded = 25f;
-        }
-    }
-
-    void FixedUpdate()
-    {
-        distance += speed * Time.fixedDeltaTime / 1.2f;
-
-        if (initialPos.x != transform.position.x)
-        {
-            Vector3 targetPos = transform.position;
-            targetPos.x = initialXPos;
-            transform.position = Vector3.Lerp(transform.position, targetPos, 0.1f);
+            jumpForceAir = 70f;
+            jumpForceGrounded = 35f;
         }
     }
 
