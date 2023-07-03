@@ -39,6 +39,14 @@ public class Player : MonoBehaviour
     // GAME PROPERTIES =====================
     public float distance = 0f;
 
+    // GAME STATE ENUM ====================
+    public enum GameState
+    {
+        Playing,
+        GameOver
+    }
+
+    GameState state;
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -46,12 +54,18 @@ public class Player : MonoBehaviour
         initialPos = transform.position;
         initialXPos = initialPos.x;
         level = 1;
+        state = GameState.Playing;
     }
 
     void Update()
     {
         // Debug.Log(jumpForceGrounded * level * 0.7f);
         // Debug.Log(jumpForceAir * level);
+        if (state == GameState.GameOver)
+        {
+            GameOver();
+            return;
+        }
 
         JumpGravity();
         speed += acceleration * Time.deltaTime / 12f;
@@ -168,6 +182,20 @@ public class Player : MonoBehaviour
         Vector3 pos = transform.position;
         pos.x += 1;
         Instantiate(rocket, pos, Quaternion.Euler(0, 0, 90));
+    }
+
+    void GameOver()
+    {
+        Debug.Log("Game Over");
+
+        if (speed > 0.1)
+        {
+            speed -= acceleration * Time.deltaTime * 10;
+        }
+        else
+        {
+            speed = 0;
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
