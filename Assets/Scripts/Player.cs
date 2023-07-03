@@ -220,11 +220,6 @@ public class Player : MonoBehaviour
         
         if (other.gameObject.tag == "Obstacle")
         {
-            if (!invincible)
-            {
-                Debug.Log("Game Over");
-            }
-
             if (shield)
             {
                 shieldCount--;
@@ -236,6 +231,8 @@ public class Player : MonoBehaviour
                 string objectName = other.gameObject.name;
                 Debug.Log("Destroyed with shield : " + objectName);
                 uicontrol.ScoreUp(10 * level);
+            }else{
+                Debug.Log("Game Over");
             }
             return;
         }
