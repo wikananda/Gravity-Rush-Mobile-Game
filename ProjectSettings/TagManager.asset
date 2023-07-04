@@ -13,6 +13,7 @@ TagManager:
   - Despawn
   - Missile
   - MissileDespawn
+  - RocketDespawner
   layers:
   - Default
   - TransparentFX
