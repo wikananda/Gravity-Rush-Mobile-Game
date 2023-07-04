@@ -110,15 +110,15 @@ public class Player : MonoBehaviour
             level = 2;
             rigid.gravityScale = 10 * gravityDirection;
             missileBounce = 90f;
-            jumpForceAir = 45f;
-            jumpForceGrounded = 30f;
+            jumpForceAir = 50f;
+            jumpForceGrounded = 25f;
         }
         else if (speed > 14f)
         {
             level = 3;
             rigid.gravityScale = 13 * gravityDirection;
             missileBounce = 115f;
-            jumpForceAir = 70f;
+            jumpForceAir = 90f;
             jumpForceGrounded = 35f;
         }
     }

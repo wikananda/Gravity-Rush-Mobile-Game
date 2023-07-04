@@ -7,30 +7,42 @@ public class LevelGenerator : MonoBehaviour
     private const float PLAYER_DISTANCE_SPAWN_LEVEL_PART = 50f;
 
     private Transform levelPart_Start;
+    Transform lastLevelPartTransform;
     [SerializeField] private List<Transform> levelPartList;
     [SerializeField] private Player player;
 
     private Vector3 lastEndPosition;
     private float distanceToSpawn;
+    float playerPosX;
+    float lastEndPosX;
+
+    // public bool spawnFlag = false;
 
     private void Awake()
     {
         levelPart_Start = levelPartList[0].transform;
-        lastEndPosition = levelPart_Start.Find("EndPosition").position;
-        Transform lastLevelPartTransform = SpawnLevelPart(levelPart_Start, new Vector3(lastEndPosition.x, lastEndPosition.y, -10));
+        lastEndPosition = levelPart_Start.Find("EndPosition").transform.TransformPoint(Vector3.zero);
+        lastLevelPartTransform = SpawnLevelPart(levelPart_Start, new Vector3(lastEndPosition.x, lastEndPosition.y, -10));
         Debug.Log(levelPart_Start);
     }
 
     void Update()
-    {
-        lastEndPosition = levelPart_Start.Find("EndPosition").position;
+    {   
+        lastEndPosition = lastLevelPartTransform.Find("EndPosition").transform.TransformPoint(Vector3.zero);
+        playerPosX = player.transform.position.x;
+        lastEndPosX = lastEndPosition.x;
+        distanceToSpawn = Mathf.Abs(lastEndPosX - playerPosX);
+
         Debug.Log(lastEndPosition);
-        if (Vector3.Distance(player.transform.position, lastEndPosition) < PLAYER_DISTANCE_SPAWN_LEVEL_PART)
+        // Debug.Log("Distance: " + Vector3.Distance(player.transform.position, lastEndPosition));
+        Debug.Log("Distance : " + distanceToSpawn);
+
+        if (distanceToSpawn < PLAYER_DISTANCE_SPAWN_LEVEL_PART)
         {
             Transform chosenLevelPart = levelPartList[Random.Range(0, levelPartList.Count)];
             Debug.Log("Spawning : " + chosenLevelPart.name);
-            Transform lastLevelPartTransform = SpawnLevelPart(chosenLevelPart, new Vector3(lastEndPosition.x, lastEndPosition.y, -10));
-            lastEndPosition = lastLevelPartTransform.Find("EndPosition").position;
+            lastLevelPartTransform = SpawnLevelPart(chosenLevelPart, new Vector3(lastEndPosition.x, lastEndPosition.y, -10));
+            // lastEndPosition = lastLevelPartTransform.Find("EndPosition").transform.TransformPoint(Vector3.zero);
         }
     }
 
