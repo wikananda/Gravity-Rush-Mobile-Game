@@ -12,6 +12,7 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private Player player;
 
     private Vector3 lastEndPosition;
+    private Vector3 lastStartPosition;
     private float distanceToSpawn;
     float playerPosX;
     float lastEndPosX;
@@ -33,15 +34,18 @@ public class LevelGenerator : MonoBehaviour
         lastEndPosX = lastEndPosition.x;
         distanceToSpawn = Mathf.Abs(lastEndPosX - playerPosX);
 
-        Debug.Log(lastEndPosition);
+        // Debug.Log(lastEndPosition);
         // Debug.Log("Distance: " + Vector3.Distance(player.transform.position, lastEndPosition));
-        Debug.Log("Distance : " + distanceToSpawn);
+        // Debug.Log("Distance : " + distanceToSpawn);
 
         if (distanceToSpawn < PLAYER_DISTANCE_SPAWN_LEVEL_PART)
         {
             Transform chosenLevelPart = levelPartList[Random.Range(0, levelPartList.Count)];
+            lastStartPosition = chosenLevelPart.Find("StartPosition").transform.TransformPoint(Vector3.zero);
             Debug.Log("Spawning : " + chosenLevelPart.name);
-            lastLevelPartTransform = SpawnLevelPart(chosenLevelPart, new Vector3(lastEndPosition.x, lastEndPosition.y, -10));
+            Debug.Log("last start pos : " + lastStartPosition);
+            Debug.Log("Spawn Position : " + new Vector3(lastEndPosition.x + Mathf.Abs(lastStartPosition.x), lastEndPosition.y, -10));
+            lastLevelPartTransform = SpawnLevelPart(chosenLevelPart, new Vector3(lastEndPosition.x + Mathf.Abs(lastStartPosition.x), lastEndPosition.y, -10));
             // lastEndPosition = lastLevelPartTransform.Find("EndPosition").transform.TransformPoint(Vector3.zero);
         }
     }
