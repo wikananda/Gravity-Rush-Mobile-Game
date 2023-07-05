@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     public float jumpForceGrounded = 10f;
     public float jumpForceAir = 20f;
     public float speed = 7f;
-    public float maxSpeed = 17f;
+    public float maxSpeed = 15f;
     public float acceleration = 1f;
     public float coinMagnetSpeed = 5f;
 
@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
         }
 
         JumpGravity();
-        speed += acceleration * Time.deltaTime / 12f;
+        speed += acceleration * Time.deltaTime / 15f;
 
         if (speed > maxSpeed)
         {
@@ -105,7 +105,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (speed > 10f && speed < 14f)
+        if (speed > 10f && speed < 13f)
         {
             level = 2;
             rigid.gravityScale = 10 * gravityDirection;
@@ -113,13 +113,13 @@ public class Player : MonoBehaviour
             jumpForceAir = 50f;
             jumpForceGrounded = 25f;
         }
-        else if (speed > 14f)
+        else if (speed > 13f)
         {
             level = 3;
             rigid.gravityScale = 13 * gravityDirection;
             missileBounce = 115f;
             jumpForceAir = 90f;
-            jumpForceGrounded = 35f;
+            jumpForceGrounded = 30f;
         }
     }
 
