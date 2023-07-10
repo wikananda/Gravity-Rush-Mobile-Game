@@ -22,7 +22,6 @@ public class Player : MonoBehaviour
 
     // STATE PROPERTIES =======================
     public int level = 1;
-    public int speedLevel = 1;
     public bool isGrounded = true;
     public bool coinMagnet = false;
     public bool invincible = false;
@@ -67,17 +66,17 @@ public class Player : MonoBehaviour
             return;
         }
 
-        distance += speed * Time.fixedDeltaTime / 1.2f;
+        distance += speed * Time.deltaTime / 1.2f;
 
         if (initialPos.x != transform.position.x)
         {
             Vector3 targetPos = transform.position;
             targetPos.x = initialXPos;
-            transform.position = Vector3.Lerp(transform.position, targetPos, 0.1f);
+            transform.position = Vector3.Lerp(transform.position, targetPos, 0.05f);
         }
 
         JumpGravity();
-        speed += acceleration * Time.deltaTime / 15f;
+        speed += acceleration * Time.deltaTime / 20f;
 
         if (speed > maxSpeed)
         {
@@ -112,7 +111,7 @@ public class Player : MonoBehaviour
         {
             level = 2;
             rigid.gravityScale = 10 * gravityDirection;
-            missileBounce = 90f;
+            missileBounce = 60f;
             jumpForceAir = 50f;
             jumpForceGrounded = 25f;
         }
@@ -121,7 +120,7 @@ public class Player : MonoBehaviour
             level = 3;
             rigid.gravityScale = 13 * gravityDirection;
             missileBounce = 115f;
-            jumpForceAir = 90f;
+            jumpForceAir = 75f;
             jumpForceGrounded = 30f;
         }
     }
@@ -188,7 +187,7 @@ public class Player : MonoBehaviour
 
         if (speed > 0.1)
         {
-            speed -= acceleration * Time.deltaTime * 10;
+            speed -= acceleration * Time.deltaTime * 15f * level;
         }
         else
         {
@@ -258,7 +257,7 @@ public class Player : MonoBehaviour
                 Debug.Log("Destroyed with shield : " + objectName);
                 uicontrol.ScoreUp(10 * level);
             }else{
-                Debug.Log("Game Over");
+                state = GameState.GameOver;
             }
             return;
         }
