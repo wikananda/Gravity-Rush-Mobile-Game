@@ -48,6 +48,7 @@ public class Player : MonoBehaviour
     GameState state;
     void Start()
     {
+        coll = GetComponent<BoxCollider2D>();
         rigid = GetComponent<Rigidbody2D>();
         foodEaten = 0;
         initialPos = transform.position;
@@ -127,7 +128,19 @@ public class Player : MonoBehaviour
 
     bool IsGrounded()
     {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, LayerMask.GetMask("Ground"));
+        RaycastHit2D raycastGround = Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.up * gravityDirection, 0.1f, LayerMask.GetMask("Ground"));
+        Color rayColor;
+        if (raycastGround.collider != null)
+        {
+            rayColor = Color.green;
+        }
+        else
+        {
+            rayColor = Color.red;
+        }
+        Debug.DrawRay(coll.bounds.center, Vector2.up * gravityDirection * 1f, rayColor);
+        Debug.Log(raycastGround.collider);
+        return raycastGround.collider != null;
     }
 
     void JumpGravity()
