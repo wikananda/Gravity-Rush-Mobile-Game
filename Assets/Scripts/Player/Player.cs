@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     Rigidbody2D rigid;
     Vector3 initialPos;
     float initialXPos;
+    BoxCollider2D coll;
 
     // ABILITY PROPERTIES ====================
     int gravityDirection = 1;
@@ -22,7 +23,6 @@ public class Player : MonoBehaviour
 
     // STATE PROPERTIES =======================
     public int level = 1;
-    public bool isGrounded = true;
     public bool coinMagnet = false;
     public bool invincible = false;
     public bool flash = false; // Flash movement when gravity change
@@ -125,6 +125,10 @@ public class Player : MonoBehaviour
         }
     }
 
+    bool IsGrounded()
+    {
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, LayerMask.GetMask("Ground"));
+    }
 
     void JumpGravity()
     {
@@ -152,7 +156,7 @@ public class Player : MonoBehaviour
                 // rigid.AddForce(Vector3.up * -jumpForceGrounded * 300 * gravityDirection, ForceMode2D.Impulse);
             }
             // A workaround for the floating feel problem when jumping
-            else if(isGrounded)
+            else if(IsGrounded())
             {
                 rigid.AddForce(Vector3.up * -jumpForceGrounded * gravityDirection, ForceMode2D.Impulse);
             }
@@ -197,13 +201,6 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Ground")
-        {
-            isGrounded = true;
-            Debug.Log("Grounded");
-            return;
-        }
-
         if(collision.gameObject.tag == "Missile")
         {
             Vector3 normal = (transform.position - collision.transform.position);
@@ -223,17 +220,6 @@ public class Player : MonoBehaviour
             return;
         }
     }
-
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == "Ground")
-        {
-            isGrounded = false;
-            Debug.Log("Not Grounded");
-            return;
-        }
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.tag == "Coin")
