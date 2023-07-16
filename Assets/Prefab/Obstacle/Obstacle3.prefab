@@ -216,7 +216,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!1001 &33764054380371902
 PrefabInstance:
@@ -988,6 +988,10 @@ PrefabInstance:
     - target: {fileID: 3239684851305598012, guid: ce63a2a95e320354cba8689a831a5f13, type: 3}
       propertyPath: m_Name
       value: Platform Down
+      objectReference: {fileID: 0}
+    - target: {fileID: 3239684851305598013, guid: ce63a2a95e320354cba8689a831a5f13, type: 3}
+      propertyPath: m_Size.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3239684851305598015, guid: ce63a2a95e320354cba8689a831a5f13, type: 3}
       propertyPath: m_RootOrder

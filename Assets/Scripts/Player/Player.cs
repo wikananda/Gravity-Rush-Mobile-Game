@@ -17,14 +17,13 @@ public class Player : MonoBehaviour
     public float jumpForceGrounded = 10f;
     public float jumpForceAir = 20f;
     public float speed = 7f;
-    public float maxSpeed = 15f;
+    public float maxSpeed = 14f;
     public float acceleration = 1f;
     public float coinMagnetSpeed = 5f;
 
     // STATE PROPERTIES =======================
     public int level = 1;
     public bool coinMagnet = false;
-    public bool invincible = false;
     public bool flash = false; // Flash movement when gravity change
     public int rocketCount = 0;
     // Missile properties
@@ -54,6 +53,9 @@ public class Player : MonoBehaviour
         initialPos = transform.position;
         initialXPos = initialPos.x;
         level = 1;
+        jumpForceGrounded = 15f;
+        jumpForceAir = 40f;
+        rigid.gravityScale = 10.4106f;
         state = GameState.Playing;
     }
 
@@ -111,24 +113,26 @@ public class Player : MonoBehaviour
         if (speed > 10f && speed < 13f)
         {
             level = 2;
-            rigid.gravityScale = 10 * gravityDirection;
+            // rigid.gravityScale = 10 * gravityDirection;
             missileBounce = 60f;
             jumpForceAir = 50f;
-            jumpForceGrounded = 25f;
+            rigid.gravityScale = 11.4106f * gravityDirection;
+            // jumpForceGrounded = 25f;
         }
         else if (speed > 13f)
         {
             level = 3;
-            rigid.gravityScale = 13 * gravityDirection;
+            // rigid.gravityScale = 13 * gravityDirection;
             missileBounce = 115f;
-            jumpForceAir = 75f;
-            jumpForceGrounded = 30f;
+            jumpForceAir = 70f;
+            rigid.gravityScale = 12.4106f * gravityDirection;
+            jumpForceGrounded = 20f;
         }
     }
 
     bool IsGrounded()
     {
-        RaycastHit2D raycastGround = Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.up * gravityDirection, 0.1f, LayerMask.GetMask("Ground"));
+        RaycastHit2D raycastGround = Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.up * gravityDirection, 0.15f, LayerMask.GetMask("Ground"));
         Color rayColor;
         if (raycastGround.collider != null)
         {
@@ -140,7 +144,8 @@ public class Player : MonoBehaviour
         }
         Debug.DrawRay(coll.bounds.center, Vector2.up * gravityDirection * 1f, rayColor);
         Debug.Log(raycastGround.collider);
-        return raycastGround.collider != null;
+        bool grounded = raycastGround.collider != null;
+        return grounded;
     }
 
     void JumpGravity()
@@ -172,10 +177,12 @@ public class Player : MonoBehaviour
             else if(IsGrounded())
             {
                 rigid.AddForce(Vector3.up * -jumpForceGrounded * gravityDirection, ForceMode2D.Impulse);
+                Debug.Log("Ground Jump");
             }
             else
             {
                 rigid.AddForce(Vector3.up * -jumpForceAir * gravityDirection, ForceMode2D.Impulse);
+                Debug.Log("Air Jump");
             }
         }
 

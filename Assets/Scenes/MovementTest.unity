@@ -312,7 +312,7 @@ Rigidbody2D:
   m_Mass: 2
   m_LinearDrag: 0
   m_AngularDrag: 0
-  m_GravityScale: 7
+  m_GravityScale: 12.41067
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -394,7 +394,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3239684851305598012, guid: ce63a2a95e320354cba8689a831a5f13, type: 3}
       propertyPath: m_Name
-      value: Platform Down (1)
+      value: Platform Up
+      objectReference: {fileID: 0}
+    - target: {fileID: 3239684851305598013, guid: ce63a2a95e320354cba8689a831a5f13, type: 3}
+      propertyPath: m_Size.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3239684851305598015, guid: ce63a2a95e320354cba8689a831a5f13, type: 3}
       propertyPath: m_RootOrder
@@ -778,6 +782,10 @@ PrefabInstance:
     - target: {fileID: 3239684851305598012, guid: ce63a2a95e320354cba8689a831a5f13, type: 3}
       propertyPath: m_Name
       value: Platform Down
+      objectReference: {fileID: 0}
+    - target: {fileID: 3239684851305598013, guid: ce63a2a95e320354cba8689a831a5f13, type: 3}
+      propertyPath: m_Size.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3239684851305598015, guid: ce63a2a95e320354cba8689a831a5f13, type: 3}
       propertyPath: m_RootOrder
