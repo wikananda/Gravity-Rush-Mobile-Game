@@ -34,10 +34,10 @@ public class Player : MonoBehaviour
     public float shieldDuration = 5f;
 
     // GAME PROPERTIES =====================
-    
     int gravityDirection = 1;
     public float gravityScale = 6.4106f;
     public float distance = 0f;
+    public float fallMultiplier = 2.5f;
 
     // GAME STATE ENUM ====================
     public enum GameState
@@ -78,6 +78,10 @@ public class Player : MonoBehaviour
         }
 
         JumpGravity();
+        
+        // Make falling speed faster
+        BetterFall();
+
         speed += acceleration * Time.deltaTime / 20f;
 
         if (speed > maxSpeed)
@@ -120,6 +124,18 @@ public class Player : MonoBehaviour
             level = 3;
             missileBounce = 115f;
             return;
+        }
+    }
+
+    void BetterFall()
+    {
+        if (rigid.velocity.y < 0 && gravityDirection > 0)
+        {
+            rigid.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+        }
+        else if (rigid.velocity.y > 0 && gravityDirection < 0)
+        {
+            rigid.velocity += Vector2.down * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
     }
 
