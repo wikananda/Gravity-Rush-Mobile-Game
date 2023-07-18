@@ -174,7 +174,10 @@ public class Player : MonoBehaviour
             }
             else
             {
+                rigid.gravityScale = 0;
+                rigid.velocity = Vector3.zero;
                 rigid.AddForce(Vector3.up * jumpForceAir * gravityDirection, ForceMode2D.Impulse);
+                rigid.gravityScale = gravityScale * gravityDirection;
                 Debug.Log("Air Jump");
             }
         }
