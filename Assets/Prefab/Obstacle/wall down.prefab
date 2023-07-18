@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8119693818526179660}
   - component: {fileID: 8119693818526179662}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: collider up down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,7 +69,7 @@ GameObject:
   - component: {fileID: 8119693820149417757}
   - component: {fileID: 8119693820149417754}
   - component: {fileID: 55127532040432557}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: wall down
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

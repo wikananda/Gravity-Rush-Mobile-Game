@@ -13,7 +13,6 @@ public class Player : MonoBehaviour
     BoxCollider2D coll;
 
     // ABILITY PROPERTIES ====================
-    int gravityDirection = 1;
     public float jumpForceGrounded = 10f;
     public float jumpForceAir = 20f;
     public float speed = 7f;
@@ -35,6 +34,9 @@ public class Player : MonoBehaviour
     public float shieldDuration = 5f;
 
     // GAME PROPERTIES =====================
+    
+    int gravityDirection = 1;
+    public float gravityScale = 6.4106f;
     public float distance = 0f;
 
     // GAME STATE ENUM ====================
@@ -47,22 +49,19 @@ public class Player : MonoBehaviour
     GameState state;
     void Start()
     {
+        Application.targetFrameRate = 60;
         coll = GetComponent<BoxCollider2D>();
         rigid = GetComponent<Rigidbody2D>();
         foodEaten = 0;
         initialPos = transform.position;
         initialXPos = initialPos.x;
         level = 1;
-        jumpForceGrounded = 15f;
-        jumpForceAir = 40f;
-        rigid.gravityScale = 10.4106f;
+        rigid.gravityScale = gravityScale;
         state = GameState.Playing;
     }
 
     void Update()
     {
-        // Debug.Log(jumpForceGrounded * level * 0.7f);
-        // Debug.Log(jumpForceAir * level);
         if (state == GameState.GameOver)
         {
             GameOver();
@@ -113,20 +112,14 @@ public class Player : MonoBehaviour
         if (speed > 10f && speed < 13f)
         {
             level = 2;
-            // rigid.gravityScale = 10 * gravityDirection;
             missileBounce = 60f;
-            jumpForceAir = 50f;
-            rigid.gravityScale = 11.4106f * gravityDirection;
-            // jumpForceGrounded = 25f;
+            return;
         }
         else if (speed > 13f)
         {
             level = 3;
-            // rigid.gravityScale = 13 * gravityDirection;
             missileBounce = 115f;
-            jumpForceAir = 70f;
-            rigid.gravityScale = 12.4106f * gravityDirection;
-            jumpForceGrounded = 20f;
+            return;
         }
     }
 
@@ -181,7 +174,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                rigid.AddForce(Vector3.up * -jumpForceAir * gravityDirection, ForceMode2D.Impulse);
+                rigid.AddForce(Vector3.up * jumpForceAir * gravityDirection, ForceMode2D.Impulse);
                 Debug.Log("Air Jump");
             }
         }
