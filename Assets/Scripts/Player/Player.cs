@@ -256,7 +256,7 @@ public class Player : MonoBehaviour
             return;
         }
     }
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if(other.gameObject.tag == "Coin")
         {
@@ -289,30 +289,31 @@ public class Player : MonoBehaviour
 
         if (other.gameObject.tag == "Food")
         {
-            Debug.Log("Eating...");
             foodEaten++;
             uicontrol.ScoreUp(10 * level);
+            Destroy(other.gameObject);
+            Debug.Log("Eating...");
             return;
         }
 
         if (other.gameObject.tag == "Shield")
         {
-            Debug.Log("Shield acquired...");
             shield = true;
             shieldDuration = 15f;
             shieldCount = 1;
             uicontrol.ScoreUp(15 * level);
             Destroy(other.gameObject);
+            Debug.Log("Shield acquired...");
             return;
         }
 
         if (other.gameObject.tag == "Rocket" && rocketCount < 4)
         {
-            Debug.Log("Rocket acquired...");
             rocketCount++;
             uicontrol.RocketUp(rocketCount);
             uicontrol.ScoreUp(10 * level);
             Destroy(other.gameObject);
+            Debug.Log("Rocket acquired...");
             return;
         }
     }
