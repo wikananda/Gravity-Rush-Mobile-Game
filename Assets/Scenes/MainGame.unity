@@ -3197,6 +3197,14 @@ PrefabInstance:
       propertyPath: uicontrol
       value: 
       objectReference: {fileID: 525902978}
+    - target: {fileID: 8608170404033004975, guid: dc56183e69a3f864185bdea7a0435b5f, type: 3}
+      propertyPath: jumpForceAir
+      value: 110
+      objectReference: {fileID: 0}
+    - target: {fileID: 8608170404033004975, guid: dc56183e69a3f864185bdea7a0435b5f, type: 3}
+      propertyPath: fallMultiplier
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8608170404033004976, guid: dc56183e69a3f864185bdea7a0435b5f, type: 3}
       propertyPath: m_Name
       value: Player

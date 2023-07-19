@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
         {
             Vector3 targetPos = transform.position;
             targetPos.x = initialXPos;
-            transform.position = Vector3.Lerp(transform.position, targetPos, 0.05f);
+            rigid.position = Vector3.Lerp(transform.position, targetPos, 0.05f);
         }
 
         JumpGravity();
@@ -274,7 +274,9 @@ public class Player : MonoBehaviour
                 string objectName = other.gameObject.name;
                 Debug.Log("Destroyed with shield : " + objectName);
                 uicontrol.ScoreUp(10 * level);
-            }else{
+            }
+            else
+            {
                 state = GameState.GameOver;
             }
             return;
