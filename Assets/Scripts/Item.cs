@@ -7,6 +7,7 @@ public class Item : MonoBehaviour
     public float speed = 1f;
     float initialSpeed;
     float movSpeed;
+    Rigidbody2D rigid;
 
     Player player;
     void Start()
@@ -14,13 +15,14 @@ public class Item : MonoBehaviour
         player = GameObject.Find("Player").GetComponent<Player>();
         initialSpeed = player.speed;
         speed = player.speed / 2;
+        rigid = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         movSpeed = player.speed * speed / (5f * initialSpeed);
-        transform.position = Vector3.Lerp(transform.position, transform.position + Vector3.left * movSpeed, 0.2f);
+        rigid.position = Vector3.Lerp(transform.position, transform.position + Vector3.left * movSpeed, 0.2f);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

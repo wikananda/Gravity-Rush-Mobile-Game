@@ -67,7 +67,6 @@ public class Player : MonoBehaviour
             GameOver();
             return;
         }
-
         distance += speed * Time.deltaTime / 1.2f;
 
         if (initialPos.x != transform.position.x)
@@ -141,7 +140,12 @@ public class Player : MonoBehaviour
 
     bool IsGrounded()
     {
-        RaycastHit2D raycastGround = Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.up * gravityDirection, 0.15f, LayerMask.GetMask("Ground"));
+        RaycastHit2D raycastGround = Physics2D.BoxCast(coll.bounds.center, 
+                                                       coll.bounds.size,
+                                                       0f,
+                                                       Vector2.up * gravityDirection,
+                                                       0.15f,
+                                                       LayerMask.GetMask("Ground"));
         Color rayColor;
         if (raycastGround.collider != null)
         {
@@ -274,12 +278,13 @@ public class Player : MonoBehaviour
                 string objectName = other.gameObject.name;
                 Debug.Log("Destroyed with shield : " + objectName);
                 uicontrol.ScoreUp(10 * level);
+                return;
             }
             else
             {
                 state = GameState.GameOver;
+                return;
             }
-            return;
         }
 
         if (other.gameObject.tag == "Food")
