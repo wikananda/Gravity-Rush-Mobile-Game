@@ -24,13 +24,13 @@ public class LevelGenerator : MonoBehaviour
         levelPart_Start = levelPartList[0].transform;
         lastEndPosition = levelPart_Start.Find("EndPosition").transform.TransformPoint(Vector3.zero);
         lastLevelPartTransform = SpawnLevelPart(levelPart_Start, new Vector3(lastEndPosition.x, lastEndPosition.y, -10));
+        playerPosX = player.transform.position.x;
         Debug.Log(levelPart_Start);
     }
 
     void Update()
     {   
         lastEndPosition = lastLevelPartTransform.Find("EndPosition").transform.TransformPoint(Vector3.zero);
-        playerPosX = player.transform.position.x;
         lastEndPosX = lastEndPosition.x;
         distanceToSpawn = Mathf.Abs(lastEndPosX - playerPosX);
 

@@ -11,21 +11,19 @@ public class Player : MonoBehaviour
     Rigidbody2D rigid;
     Vector3 initialPos;
     float initialXPos;
+    BoxCollider2D coll;
 
     // ABILITY PROPERTIES ====================
-    int gravityDirection = 1;
     public float jumpForceGrounded = 10f;
     public float jumpForceAir = 20f;
     public float speed = 7f;
-    public float maxSpeed = 15f;
+    public float maxSpeed = 14f;
     public float acceleration = 1f;
     public float coinMagnetSpeed = 5f;
 
     // STATE PROPERTIES =======================
     public int level = 1;
-    public bool isGrounded = true;
     public bool coinMagnet = false;
-    public bool invincible = false;
     public bool flash = false; // Flash movement when gravity change
     public int rocketCount = 0;
     // Missile properties
@@ -37,7 +35,10 @@ public class Player : MonoBehaviour
     public float shieldDuration = 5f;
 
     // GAME PROPERTIES =====================
+    int gravityDirection = 1;
+    public float gravityScale = 6.4106f;
     public float distance = 0f;
+    public float fallMultiplier = 2.5f;
 
     // GAME STATE ENUM ====================
     public enum GameState
@@ -49,35 +50,39 @@ public class Player : MonoBehaviour
     GameState state;
     void Start()
     {
+        Application.targetFrameRate = 60;
+        coll = GetComponent<BoxCollider2D>();
         rigid = GetComponent<Rigidbody2D>();
         foodEaten = 0;
         initialPos = transform.position;
         initialXPos = initialPos.x;
         level = 1;
+        rigid.gravityScale = gravityScale;
         state = GameState.Playing;
     }
 
     // UPDATE ============================
     void Update()
     {
-        // Debug.Log(jumpForceGrounded * level * 0.7f);
-        // Debug.Log(jumpForceAir * level);
         if (state == GameState.GameOver)
         {
             GameOver();
             return;
         }
-
         distance += speed * Time.deltaTime / 1.2f;
 
         if (initialPos.x != transform.position.x)
         {
             Vector3 targetPos = transform.position;
             targetPos.x = initialXPos;
-            transform.position = Vector3.Lerp(transform.position, targetPos, 0.05f);
+            rigid.position = Vector3.Lerp(transform.position, targetPos, 0.05f);
         }
 
         JumpGravity();
+        
+        // Make falling speed faster
+        BetterFall();
+
         speed += acceleration * Time.deltaTime / 20f;
 
         if (speed > maxSpeed)
@@ -112,21 +117,51 @@ public class Player : MonoBehaviour
         if (speed > 10f && speed < 13f)
         {
             level = 2;
-            rigid.gravityScale = 10 * gravityDirection;
             missileBounce = 60f;
-            jumpForceAir = 50f;
-            jumpForceGrounded = 25f;
+            return;
         }
         else if (speed > 13f)
         {
             level = 3;
-            rigid.gravityScale = 13 * gravityDirection;
             missileBounce = 115f;
-            jumpForceAir = 75f;
-            jumpForceGrounded = 30f;
+            return;
         }
     }
 
+    void BetterFall()
+    {
+        if (rigid.velocity.y < 0 && gravityDirection > 0)
+        {
+            rigid.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+        }
+        else if (rigid.velocity.y > 0 && gravityDirection < 0)
+        {
+            rigid.velocity += Vector2.down * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+        }
+    }
+
+    bool IsGrounded()
+    {
+        RaycastHit2D raycastGround = Physics2D.BoxCast(coll.bounds.center, 
+                                                       coll.bounds.size,
+                                                       0f,
+                                                       Vector2.up * gravityDirection,
+                                                       0.15f,
+                                                       LayerMask.GetMask("Ground"));
+        Color rayColor;
+        if (raycastGround.collider != null)
+        {
+            rayColor = Color.green;
+        }
+        else
+        {
+            rayColor = Color.red;
+        }
+        Debug.DrawRay(coll.bounds.center, Vector2.up * gravityDirection * 1f, rayColor);
+        Debug.Log(raycastGround.collider);
+        bool grounded = raycastGround.collider != null;
+        return grounded;
+    }
 
     void JumpGravity()
     {
@@ -154,13 +189,18 @@ public class Player : MonoBehaviour
                 // rigid.AddForce(Vector3.up * -jumpForceGrounded * 300 * gravityDirection, ForceMode2D.Impulse);
             }
             // A workaround for the floating feel problem when jumping
-            else if(isGrounded)
+            else if(IsGrounded())
             {
                 rigid.AddForce(Vector3.up * -jumpForceGrounded * gravityDirection, ForceMode2D.Impulse);
+                Debug.Log("Ground Jump");
             }
             else
             {
-                rigid.AddForce(Vector3.up * -jumpForceAir * gravityDirection, ForceMode2D.Impulse);
+                rigid.gravityScale = 0;
+                rigid.velocity = Vector3.zero;
+                rigid.AddForce(Vector3.up * jumpForceAir * gravityDirection, ForceMode2D.Impulse);
+                rigid.gravityScale = gravityScale * gravityDirection;
+                Debug.Log("Air Jump");
             }
         }
 
@@ -201,13 +241,6 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Ground")
-        {
-            isGrounded = true;
-            Debug.Log("Grounded");
-            return;
-        }
-
         if(collision.gameObject.tag == "Missile")
         {
             Vector3 normal = (transform.position - collision.transform.position);
@@ -227,18 +260,7 @@ public class Player : MonoBehaviour
             return;
         }
     }
-
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == "Ground")
-        {
-            isGrounded = false;
-            Debug.Log("Not Grounded");
-            return;
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if(other.gameObject.tag == "Coin")
         {
@@ -260,38 +282,42 @@ public class Player : MonoBehaviour
                 string objectName = other.gameObject.name;
                 Debug.Log("Destroyed with shield : " + objectName);
                 uicontrol.ScoreUp(10 * level);
-            }else{
-                state = GameState.GameOver;
+                return;
             }
-            return;
+            else
+            {
+                state = GameState.GameOver;
+                return;
+            }
         }
 
         if (other.gameObject.tag == "Food")
         {
-            Debug.Log("Eating...");
             foodEaten++;
             uicontrol.ScoreUp(10 * level);
+            Destroy(other.gameObject);
+            Debug.Log("Eating...");
             return;
         }
 
         if (other.gameObject.tag == "Shield")
         {
-            Debug.Log("Shield acquired...");
             shield = true;
             shieldDuration = 15f;
             shieldCount = 1;
             uicontrol.ScoreUp(15 * level);
             Destroy(other.gameObject);
+            Debug.Log("Shield acquired...");
             return;
         }
 
         if (other.gameObject.tag == "Rocket" && rocketCount < 4)
         {
-            Debug.Log("Rocket acquired...");
             rocketCount++;
             uicontrol.RocketUp(rocketCount);
             uicontrol.ScoreUp(10 * level);
             Destroy(other.gameObject);
+            Debug.Log("Rocket acquired...");
             return;
         }
     }
