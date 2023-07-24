@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     [SerializeField] UIController uicontrol;
     [SerializeField] GameObject rocket;
 
+    public GameOverScript gameOverScript;
+
     Rigidbody2D rigid;
     Vector3 initialPos;
     float initialXPos;
@@ -55,7 +57,12 @@ public class Player : MonoBehaviour
         level = 1;
         state = GameState.Playing;
     }
+    // GAME OVER =========================
+    public void GameOverSetup(){
+        gameOverScript.Setup(distance);
+    }
 
+    // UPDATE ============================
     void Update()
     {
         // Debug.Log(jumpForceGrounded * level * 0.7f);
@@ -184,7 +191,7 @@ public class Player : MonoBehaviour
     void GameOver()
     {
         Debug.Log("Game Over");
-
+        GameOverSetup();
         if (speed > 0.1)
         {
             speed -= acceleration * Time.deltaTime * 15f * level;
