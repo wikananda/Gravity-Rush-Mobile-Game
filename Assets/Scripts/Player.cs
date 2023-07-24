@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] UIController uicontrol;
     [SerializeField] GameObject rocket;
-
-    public GameOverScript gameOverScript;
 
     Rigidbody2D rigid;
     Vector3 initialPos;
@@ -56,10 +55,6 @@ public class Player : MonoBehaviour
         initialXPos = initialPos.x;
         level = 1;
         state = GameState.Playing;
-    }
-    // GAME OVER =========================
-    public void GameOverSetup(){
-        gameOverScript.Setup(distance);
     }
 
     // UPDATE ============================
@@ -187,11 +182,13 @@ public class Player : MonoBehaviour
         pos.x += 1;
         Instantiate(rocket, pos, Quaternion.Euler(0, 0, 90));
     }
-
+    public static float dist;
     void GameOver()
     {
         Debug.Log("Game Over");
-        GameOverSetup();
+        dist = distance;
+        Debug.Log(dist);
+        SceneManager.LoadScene("GameOver");
         if (speed > 0.1)
         {
             speed -= acceleration * Time.deltaTime * 15f * level;

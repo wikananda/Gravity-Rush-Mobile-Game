@@ -13,8 +13,12 @@ public class GameOverScript : MonoBehaviour
         SceneManager.LoadScene("MainGame");
     }
 
-    public void Setup(float score){
+    public void QuitGame(){
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void Setup(){
         gameObject.SetActive(true);
-        pointsText.text = "Distance: " + score.ToString();
+        pointsText.text = "Distance: " + Player.dist.ToString();
     }
 }
