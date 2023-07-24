@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -60,6 +61,7 @@ public class Player : MonoBehaviour
         state = GameState.Playing;
     }
 
+    // UPDATE ============================
     void Update()
     {
         if (state == GameState.GameOver)
@@ -220,11 +222,13 @@ public class Player : MonoBehaviour
         pos.x += 1;
         Instantiate(rocket, pos, Quaternion.Euler(0, 0, 90));
     }
-
+    public static float dist;
     void GameOver()
     {
         Debug.Log("Game Over");
-
+        dist = distance;
+        Debug.Log(dist);
+        SceneManager.LoadScene("GameOver");
         if (speed > 0.1)
         {
             speed -= acceleration * Time.deltaTime * 15f * level;
