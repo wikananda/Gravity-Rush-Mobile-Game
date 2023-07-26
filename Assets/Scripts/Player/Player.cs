@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] UIController uicontrol;
+    [SerializeField] GameUI gameui;
     [SerializeField] GameObject rocket;
     [SerializeField] PlayerShield shield;
 
@@ -185,7 +185,7 @@ public class Player : MonoBehaviour
             if (rocketCount > 0)
             {
                 rocketCount--;
-                uicontrol.RocketUp(rocketCount);
+                gameui.RocketUp(rocketCount);
                 Debug.Log("Firing rocket...");
                 RocketLaunch();
             }
@@ -231,7 +231,7 @@ public class Player : MonoBehaviour
                 normal.y = -1;
             }
             rigid.AddForce(normal * missileBounce, ForceMode2D.Impulse);
-            uicontrol.ScoreUp(10 * level);
+            gameui.ScoreUp(10 * level);
             Destroy(collision.gameObject);
             return;
         }
@@ -241,7 +241,7 @@ public class Player : MonoBehaviour
         if(other.gameObject.tag == "Coin")
         {
             Destroy(other.gameObject);
-            uicontrol.ScoreUp(5 * level); // Call CoinUp method in UIController to update coin text
+            gameui.ScoreUp(5 * level); // Call CoinUp method in UIController to update coin text
             return;
         }
         
@@ -253,7 +253,7 @@ public class Player : MonoBehaviour
                 Destroy(other.gameObject);
                 string objectName = other.gameObject.name;
                 Debug.Log("Destroyed with shield : " + objectName);
-                uicontrol.ScoreUp(10 * level);
+                gameui.ScoreUp(10 * level);
                 return;
             }
             else
@@ -266,7 +266,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.tag == "Food")
         {
             foodEaten++;
-            uicontrol.ScoreUp(10 * level);
+            gameui.ScoreUp(10 * level);
             Destroy(other.gameObject);
             Debug.Log("Eating...");
             return;
@@ -275,8 +275,8 @@ public class Player : MonoBehaviour
         if (other.gameObject.tag == "Rocket" && rocketCount < 4)
         {
             rocketCount++;
-            uicontrol.RocketUp(rocketCount);
-            uicontrol.ScoreUp(10 * level);
+            gameui.RocketUp(rocketCount);
+            gameui.ScoreUp(10 * level);
             Destroy(other.gameObject);
             Debug.Log("Rocket acquired...");
             return;

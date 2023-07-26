@@ -9,7 +9,10 @@ public class PlayerShield : MonoBehaviour
     [SerializeField] float shieldDuration = 5f;
     [SerializeField] int shieldCount = 1;
 
-    // // Getters and Setters
+    // GameUI
+    GameUI gameui;
+
+    // Getters and Setters
     public bool Shield
     {
         get => shield;
@@ -28,12 +31,17 @@ public class PlayerShield : MonoBehaviour
         set => shieldCount = value;
     }
 
+    private void Awake()
+    {
+        gameui = GameObject.Find("GameUI").GetComponent<GameUI>();
+    }
+
     private void OnTriggerStay2D(Collider2D other)
     {
         if (other.gameObject.tag == "Shield")
         {
             ShieldOn(15f, 3);
-            // uicontrol.ScoreUp(15 * level);
+            gameui.ScoreUp(15);
             Destroy(other.gameObject);
             return;
         }
