@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] UIController uicontrol;
     [SerializeField] GameObject rocket;
+    [SerializeField] PlayerShield shield;
 
     Rigidbody2D rigid;
     Vector3 initialPos;
@@ -20,7 +21,7 @@ public class Player : MonoBehaviour
     public float maxSpeed = 14f;
     public float acceleration = 1f;
     public float coinMagnetSpeed = 5f;
-
+    
     // STATE PROPERTIES =======================
     public int level = 1;
     public bool coinMagnet = false;
@@ -28,11 +29,7 @@ public class Player : MonoBehaviour
     public int rocketCount = 0;
     // Missile properties
     public float missileBounce = 80f;
-    // Shield properties
     public int foodEaten = 0;
-    public bool shield = false;
-    public int shieldCount = 1;
-    public float shieldDuration = 5f;
 
     // GAME PROPERTIES =====================
     int gravityDirection = 1;
@@ -92,26 +89,7 @@ public class Player : MonoBehaviour
 
         if (foodEaten >= 3)
         {
-            shield = true;
-            foodEaten = 0;
-            if (shieldDuration <= 5)
-            {
-                shieldDuration = 5f;
-                shieldCount = 1;
-            }
-        }
-
-        if (shield)
-        {
-            shieldDuration -= Time.deltaTime;
-            Debug.Log("Shield active...");
-            if (shieldDuration <= 0)
-            {
-                shieldCount = 1;
-                shieldDuration = 5f;
-                shield = false;
-                Debug.Log("Shield deactivated...");
-            }
+            shield.ShieldOn(5f, 1);
         }
 
         if (speed > 10f && speed < 13f)
@@ -184,9 +162,7 @@ public class Player : MonoBehaviour
                     transform.position = new Vector3(transform.position.x, downPos.y, 0);
                 }
 
-                shieldDuration = 1f;
-                shield = true; // Give mini shield during teleporting
-                // rigid.AddForce(Vector3.up * -jumpForceGrounded * 300 * gravityDirection, ForceMode2D.Impulse);
+                shield.ShieldOn(1f, 1); // Give mini shield during teleporting
             }
             // A workaround for the floating feel problem when jumping
             else if(IsGrounded())
@@ -271,13 +247,9 @@ public class Player : MonoBehaviour
         
         if (other.gameObject.tag == "Obstacle")
         {
-            if (shield)
+            if (shield.Shield)
             {
-                shieldCount--;
-                if(shieldCount == 0){
-                    shield = false;
-                    shieldDuration = 5f;
-                }
+                shield.ShieldCount--;
                 Destroy(other.gameObject);
                 string objectName = other.gameObject.name;
                 Debug.Log("Destroyed with shield : " + objectName);
@@ -297,17 +269,6 @@ public class Player : MonoBehaviour
             uicontrol.ScoreUp(10 * level);
             Destroy(other.gameObject);
             Debug.Log("Eating...");
-            return;
-        }
-
-        if (other.gameObject.tag == "Shield")
-        {
-            shield = true;
-            shieldDuration = 15f;
-            shieldCount = 1;
-            uicontrol.ScoreUp(15 * level);
-            Destroy(other.gameObject);
-            Debug.Log("Shield acquired...");
             return;
         }
 
