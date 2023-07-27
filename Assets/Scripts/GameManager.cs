@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Instantiate(food, new Vector3(10, 0, 0), Quaternion.identity);
+        Instantiate(food, new Vector3(16, 0, 0), Quaternion.identity);
+        Instantiate(food, new Vector3(18, 0, 0), Quaternion.identity);
         Instantiate(shield, new Vector3(12, 0, 0), Quaternion.identity);
         Instantiate(rocket, new Vector3(14, 0, 0), Quaternion.identity);  
     }

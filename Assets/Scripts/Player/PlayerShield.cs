@@ -40,7 +40,7 @@ public class PlayerShield : MonoBehaviour
     {
         if (other.gameObject.tag == "Shield")
         {
-            ShieldOn(15f, 3);
+            ShieldOn(12f, 3);
             gameui.ScoreUp(15);
             Destroy(other.gameObject);
             return;

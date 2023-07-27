@@ -5,9 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] GameUI gameui;
     [SerializeField] GameObject rocket;
-    [SerializeField] PlayerShield shield;
+    
+    GameUI gameui;
+    PlayerShield shield;
+    PlayerFood food;
 
     Rigidbody2D rigid;
     Vector3 initialPos;
@@ -27,9 +29,10 @@ public class Player : MonoBehaviour
     public bool coinMagnet = false;
     public bool flash = false; // Flash movement when gravity change
     public int rocketCount = 0;
+    
     // Missile properties
     public float missileBounce = 80f;
-    public int foodEaten = 0;
+    
 
     // GAME PROPERTIES =====================
     int gravityDirection = 1;
@@ -48,12 +51,17 @@ public class Player : MonoBehaviour
     void Start()
     {
         Application.targetFrameRate = 60;
+
         coll = GetComponent<BoxCollider2D>();
         rigid = GetComponent<Rigidbody2D>();
-        foodEaten = 0;
+        shield = GetComponent<PlayerShield>();
+        food = GetComponent<PlayerFood>();
+        gameui = GameObject.Find("GameUI").GetComponent<GameUI>();
+
         initialPos = transform.position;
         initialXPos = initialPos.x;
         level = 1;
+
         rigid.gravityScale = gravityScale;
         state = GameState.Playing;
     }
@@ -87,9 +95,10 @@ public class Player : MonoBehaviour
             speed = maxSpeed;
         }
 
-        if (foodEaten >= 3)
+        if (food.FoodEaten >= 3)
         {
             shield.ShieldOn(5f, 1);
+            food.FoodEaten = 0;
         }
 
         if (speed > 10f && speed < 13f)
@@ -261,15 +270,6 @@ public class Player : MonoBehaviour
                 state = GameState.GameOver;
                 return;
             }
-        }
-
-        if (other.gameObject.tag == "Food")
-        {
-            foodEaten++;
-            gameui.ScoreUp(10 * level);
-            Destroy(other.gameObject);
-            Debug.Log("Eating...");
-            return;
         }
 
         if (other.gameObject.tag == "Rocket" && rocketCount < 4)
