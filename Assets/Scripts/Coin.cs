@@ -4,23 +4,33 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
+    PlayerMagnet magnet;
     Player player;
+
+    CircleCollider2D coinColl;
     float speed = 0.1f;
 
     void Awake()
     {
+        magnet = GameObject.Find("Player").GetComponent<PlayerMagnet>();
         player = GameObject.Find("Player").GetComponent<Player>();
+        coinColl = GetComponent<CircleCollider2D>();
     }
 
     void FixedUpdate()
     {
-        if (player.coinMagnet)
+        if (magnet.Magnet)
         {
-            speed = player.coinMagnetSpeed * Time.fixedDeltaTime;
+            coinColl.radius = 0.05f;
+            speed = magnet.MagnetSpeed * Time.fixedDeltaTime;
             if (Vector3.Distance(transform.position, player.transform.position) < 5.5f)
             {
                 transform.position = Vector3.Lerp(transform.position, player.transform.position, speed);
             }
+        }
+        else
+        {
+            coinColl.radius = 0.7f;
         }
     }
 

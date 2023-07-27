@@ -22,11 +22,9 @@ public class Player : MonoBehaviour
     public float speed = 7f;
     public float maxSpeed = 14f;
     public float acceleration = 1f;
-    public float coinMagnetSpeed = 5f;
     
     // STATE PROPERTIES =======================
     public int level = 1;
-    public bool coinMagnet = false;
     public bool flash = false; // Flash movement when gravity change
     public int rocketCount = 0;
     
