@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     GameUI gameui;
     PlayerShield shield;
     PlayerFood food;
+    PlayerFlash flash;
 
     Rigidbody2D rigid;
     Vector3 initialPos;
@@ -25,7 +26,6 @@ public class Player : MonoBehaviour
     
     // STATE PROPERTIES =======================
     public int level = 1;
-    public bool flash = false; // Flash movement when gravity change
     public int rocketCount = 0;
     
     // Missile properties
@@ -54,6 +54,7 @@ public class Player : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         shield = GetComponent<PlayerShield>();
         food = GetComponent<PlayerFood>();
+        flash = GetComponent<PlayerFlash>();
         gameui = GameObject.Find("GameUI").GetComponent<GameUI>();
 
         initialPos = transform.position;
@@ -155,21 +156,9 @@ public class Player : MonoBehaviour
             gravityDirection *= -1;
             rigid.gravityScale *= -1;
             
-            if (flash)
+            if (flash.Flash)
             {
-                Vector3 upPos = GameObject.Find("UpPos").transform.position;
-                Vector3 downPos = GameObject.Find("DownPos").transform.position;
-
-                if (gravityDirection < 0)
-                {
-                    transform.position = new Vector3(transform.position.x, upPos.y, 0);
-                }
-                else
-                {
-                    transform.position = new Vector3(transform.position.x, downPos.y, 0);
-                }
-
-                shield.ShieldOn(1f, 1); // Give mini shield during teleporting
+                FlashMove();
             }
             // A workaround for the floating feel problem when jumping
             else if(IsGrounded())
@@ -199,6 +188,22 @@ public class Player : MonoBehaviour
         }
     }
 
+    void FlashMove()
+    {
+        Vector3 upPos = GameObject.Find("UpPos").transform.position;
+        Vector3 downPos = GameObject.Find("DownPos").transform.position;
+
+        if (gravityDirection < 0)
+        {
+            transform.position = new Vector3(transform.position.x, upPos.y, 0);
+        }
+        else
+        {
+            transform.position = new Vector3(transform.position.x, downPos.y, 0);
+        }
+
+        shield.ShieldOn(1f, 1); // Give mini shield during teleporting
+    }
     void RocketLaunch()
     {
         Vector3 pos = transform.position;

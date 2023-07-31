@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 8608170404033004975}
   - component: {fileID: 7125196979353922937}
   - component: {fileID: 3156021133219070133}
+  - component: {fileID: 1471555021}
+  - component: {fileID: 3551731610732990105}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -148,19 +150,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 528be1da75b29ac43b3451e662e404e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameui: {fileID: 0}
   rocket: {fileID: 1153275898286494438, guid: f26409a064e2c3f4c9a4953404605f3a, type: 3}
   jumpForceGrounded: 27
   jumpForceAir: 110
   speed: 6.5
   maxSpeed: 16
   acceleration: 1
-  coinMagnetSpeed: 7
   level: 1
-  coinMagnet: 0
-  flash: 0
   rocketCount: 0
-  foodEaten: 0
   missileBounce: 60
   gravityScale: 6.4106
   distance: 0
@@ -190,5 +187,33 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65dad07d148524e4a91114bfa7575c7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodEaten: 0
+--- !u!114 &1471555021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8608170404033004976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6ecbc6c64d68b040adec79b7c865c39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  magnet: 0
+  magnetDuration: 10
+  magnetSpeed: 5
+--- !u!114 &3551731610732990105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8608170404033004976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07a9964648582ed40940a835a3b4d601, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
