@@ -158,7 +158,7 @@ public class Player : MonoBehaviour
             
             if (flash.Flash)
             {
-                FlashMove();
+                flash.FlashMove(gravityDirection);
             }
             else if(IsGrounded())
             {
@@ -186,22 +186,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    void FlashMove()
-    {
-        Vector3 upPos = GameObject.Find("UpPos").transform.position;
-        Vector3 downPos = GameObject.Find("DownPos").transform.position;
-
-        if (gravityDirection < 0)
-        {
-            transform.position = new Vector3(transform.position.x, upPos.y, 0);
-        }
-        else
-        {
-            transform.position = new Vector3(transform.position.x, downPos.y, 0);
-        }
-
-        shield.ShieldOn(1f, 1); // Give mini shield during teleporting
-    }
     public static float dist;
     void GameOver()
     {
