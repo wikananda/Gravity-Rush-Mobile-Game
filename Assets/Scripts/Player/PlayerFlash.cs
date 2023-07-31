@@ -6,7 +6,6 @@ public class PlayerFlash : MonoBehaviour
 {
     [SerializeField] bool flash = false;
     [SerializeField] float flashDuration = 10f;
-    PlayerShield shield;
 
     public bool Flash
     {

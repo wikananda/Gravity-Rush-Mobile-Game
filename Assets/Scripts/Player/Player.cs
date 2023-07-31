@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] GameObject rocket;
     
     GameUI gameui;
     PlayerShield shield;
@@ -16,6 +15,8 @@ public class Player : MonoBehaviour
     Vector3 initialPos;
     float initialXPos;
     BoxCollider2D coll;
+    PlayerRocket rocket;
+    
 
     // ABILITY PROPERTIES ====================
     public float jumpForceGrounded = 10f;
@@ -26,11 +27,9 @@ public class Player : MonoBehaviour
     
     // STATE PROPERTIES =======================
     public int level = 1;
-    public int rocketCount = 0;
     
     // Missile properties
     public float missileBounce = 80f;
-    
 
     // GAME PROPERTIES =====================
     int gravityDirection = 1;
@@ -56,6 +55,7 @@ public class Player : MonoBehaviour
         food = GetComponent<PlayerFood>();
         flash = GetComponent<PlayerFlash>();
         gameui = GameObject.Find("GameUI").GetComponent<GameUI>();
+        rocket = GetComponent<PlayerRocket>();
 
         initialPos = transform.position;
         initialXPos = initialPos.x;
@@ -160,7 +160,6 @@ public class Player : MonoBehaviour
             {
                 FlashMove();
             }
-            // A workaround for the floating feel problem when jumping
             else if(IsGrounded())
             {
                 rigid.AddForce(Vector3.up * -jumpForceGrounded * gravityDirection, ForceMode2D.Impulse);
@@ -178,12 +177,11 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            if (rocketCount > 0)
+            if (rocket.RocketCount > 0)
             {
-                rocketCount--;
-                gameui.RocketUp(rocketCount);
-                Debug.Log("Firing rocket...");
-                RocketLaunch();
+                rocket.RocketCount--;
+                gameui.RocketUp(rocket.RocketCount);
+                rocket.RocketLaunch();
             }
         }
     }
@@ -203,12 +201,6 @@ public class Player : MonoBehaviour
         }
 
         shield.ShieldOn(1f, 1); // Give mini shield during teleporting
-    }
-    void RocketLaunch()
-    {
-        Vector3 pos = transform.position;
-        pos.x += 1;
-        Instantiate(rocket, pos, Quaternion.Euler(0, 0, 90));
     }
     public static float dist;
     void GameOver()
@@ -273,16 +265,6 @@ public class Player : MonoBehaviour
                 state = GameState.GameOver;
                 return;
             }
-        }
-
-        if (other.gameObject.tag == "Rocket" && rocketCount < 4)
-        {
-            rocketCount++;
-            gameui.RocketUp(rocketCount);
-            gameui.ScoreUp(10 * level);
-            Destroy(other.gameObject);
-            Debug.Log("Rocket acquired...");
-            return;
         }
     }
 }

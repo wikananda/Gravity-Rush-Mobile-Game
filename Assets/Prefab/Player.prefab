@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3156021133219070133}
   - component: {fileID: 1471555021}
   - component: {fileID: 3551731610732990105}
+  - component: {fileID: 7740408111845842972}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -150,14 +151,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 528be1da75b29ac43b3451e662e404e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rocket: {fileID: 1153275898286494438, guid: f26409a064e2c3f4c9a4953404605f3a, type: 3}
   jumpForceGrounded: 27
   jumpForceAir: 110
   speed: 6.5
   maxSpeed: 16
   acceleration: 1
   level: 1
-  rocketCount: 0
   missileBounce: 60
   gravityScale: 6.4106
   distance: 0
@@ -217,3 +216,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07a9964648582ed40940a835a3b4d601, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flash: 0
+  flashDuration: 10
+--- !u!114 &7740408111845842972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8608170404033004976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc12ac815d0d46489ac74c753c63b58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rocket: {fileID: 1153275898286494438, guid: f26409a064e2c3f4c9a4953404605f3a, type: 3}
