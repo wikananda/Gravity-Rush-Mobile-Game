@@ -5,14 +5,14 @@ using TMPro;
 
 public class GameUI : MonoBehaviour
 {
-    Player player;
+    GameManager gameManager;
     TextMeshProUGUI distanceText;
     TextMeshProUGUI scoreText;
     TextMeshProUGUI rocketText;
     TextMeshProUGUI speedDebug;
     void Awake()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         distanceText = GameObject.Find("DistanceText").GetComponent<TextMeshProUGUI>();
         scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
         rocketText = GameObject.Find("RocketText").GetComponent<TextMeshProUGUI>();
@@ -22,9 +22,9 @@ public class GameUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int distance = Mathf.FloorToInt(player.distance);
+        int distance = Mathf.FloorToInt(gameManager.Distance);
         distanceText.text = distance.ToString() + " m";
-        speedDebug.text = player.speed.ToString() + " km/s";
+        speedDebug.text = gameManager.Speed.ToString() + " km/s";
     }
 
     // Increase coin count, called from Player.cs

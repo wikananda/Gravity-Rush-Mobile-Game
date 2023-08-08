@@ -5,11 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    
     GameUI gameui;
     PlayerShield shield;
     PlayerFood food;
     PlayerFlash flash;
+    GameManager gameManager;
 
     Rigidbody2D rigid;
     Vector3 initialPos;
@@ -19,36 +19,18 @@ public class Player : MonoBehaviour
     
 
     // ABILITY PROPERTIES ====================
-    public float jumpForceGrounded = 10f;
-    public float jumpForceAir = 20f;
-    public float speed = 7f;
-    public float maxSpeed = 14f;
-    public float acceleration = 1f;
-    
-    // STATE PROPERTIES =======================
-    public int level = 1;
-    
-    // Missile properties
-    public float missileBounce = 80f;
+    [SerializeField] float jumpForceGrounded = 10f;
+    [SerializeField] float jumpForceAir = 20f;
+    [SerializeField] float missileBounce = 80f;
 
     // GAME PROPERTIES =====================
     int gravityDirection = 1;
-    public float gravityScale = 6.4106f;
-    public float distance = 0f;
-    public float fallMultiplier = 2.5f;
+    [SerializeField] float gravityScale = 6.4106f;
+    [SerializeField] float fallMultiplier = 2.5f;
 
-    // GAME STATE ENUM ====================
-    public enum GameState
-    {
-        Playing,
-        GameOver
-    }
-
-    GameState state;
+    // START & UPDATE ============================
     void Start()
     {
-        Application.targetFrameRate = 60;
-
         coll = GetComponent<BoxCollider2D>();
         rigid = GetComponent<Rigidbody2D>();
         shield = GetComponent<PlayerShield>();
@@ -56,25 +38,16 @@ public class Player : MonoBehaviour
         flash = GetComponent<PlayerFlash>();
         gameui = GameObject.Find("GameUI").GetComponent<GameUI>();
         rocket = GetComponent<PlayerRocket>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         initialPos = transform.position;
         initialXPos = initialPos.x;
-        level = 1;
 
         rigid.gravityScale = gravityScale;
-        state = GameState.Playing;
     }
 
-    // UPDATE ============================
     void Update()
     {
-        if (state == GameState.GameOver)
-        {
-            GameOver();
-            return;
-        }
-        distance += speed * Time.deltaTime / 1.2f;
-
         if (initialPos.x != transform.position.x)
         {
             Vector3 targetPos = transform.position;
@@ -83,16 +56,7 @@ public class Player : MonoBehaviour
         }
 
         JumpGravity();
-        
-        // Make falling speed faster
-        BetterFall();
-
-        speed += acceleration * Time.deltaTime / 20f;
-
-        if (speed > maxSpeed)
-        {
-            speed = maxSpeed;
-        }
+        BetterFall(); // Make falling speed faster
 
         if (food.FoodEaten >= 3)
         {
@@ -100,20 +64,26 @@ public class Player : MonoBehaviour
             food.FoodEaten = 0;
         }
 
-        if (speed > 10f && speed < 13f)
+        if (gameManager.Speed > 10f && gameManager.Speed < 13f)
         {
-            level = 2;
+            gameManager.Level = 2;
             missileBounce = 60f;
             return;
         }
-        else if (speed > 13f)
+        else if (gameManager.Speed > 13f && gameManager.Speed < 16f)
         {
-            level = 3;
+            gameManager.Level = 3;
             missileBounce = 115f;
+            return;
+        }
+        else if (gameManager.Speed > 16f)
+        {
+            gameManager.Level = 4;
             return;
         }
     }
 
+    // METHODS ============================
     void BetterFall()
     {
         if (rigid.velocity.y < 0 && gravityDirection > 0)
@@ -134,17 +104,6 @@ public class Player : MonoBehaviour
                                                        Vector2.up * gravityDirection,
                                                        0.15f,
                                                        LayerMask.GetMask("Ground"));
-        Color rayColor;
-        if (raycastGround.collider != null)
-        {
-            rayColor = Color.green;
-        }
-        else
-        {
-            rayColor = Color.red;
-        }
-        Debug.DrawRay(coll.bounds.center, Vector2.up * gravityDirection * 1f, rayColor);
-        Debug.Log(raycastGround.collider);
         bool grounded = raycastGround.collider != null;
         return grounded;
     }
@@ -186,23 +145,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public static float dist;
-    void GameOver()
-    {
-        Debug.Log("Game Over");
-        dist = distance;
-        Debug.Log(dist);
-        SceneManager.LoadScene("GameOver");
-        if (speed > 0.1)
-        {
-            speed -= acceleration * Time.deltaTime * 15f * level;
-        }
-        else
-        {
-            speed = 0;
-        }
-    }
-
+    // COLLISIONS ============================
     void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.tag == "Missile")
@@ -219,7 +162,7 @@ public class Player : MonoBehaviour
                 normal.y = -1;
             }
             rigid.AddForce(normal * missileBounce, ForceMode2D.Impulse);
-            gameui.ScoreUp(10 * level);
+            gameui.ScoreUp(10 * gameManager.Level);
             Destroy(collision.gameObject);
             return;
         }
@@ -229,7 +172,7 @@ public class Player : MonoBehaviour
         if(other.gameObject.tag == "Coin")
         {
             Destroy(other.gameObject);
-            gameui.ScoreUp(5 * level); // Call CoinUp method in UIController to update coin text
+            gameui.ScoreUp(5 * gameManager.Level); // Call CoinUp method in UIController to update coin text
             return;
         }
         
@@ -241,12 +184,12 @@ public class Player : MonoBehaviour
                 Destroy(other.gameObject);
                 string objectName = other.gameObject.name;
                 Debug.Log("Destroyed with shield : " + objectName);
-                gameui.ScoreUp(10 * level);
+                gameui.ScoreUp(10 * gameManager.Level);
                 return;
             }
             else
             {
-                state = GameState.GameOver;
+                gameManager.State = GameManager.GameState.GameOver;
                 return;
             }
         }

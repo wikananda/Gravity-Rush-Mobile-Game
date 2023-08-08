@@ -15,6 +15,7 @@ TagManager:
   - MissileDespawn
   - RocketDespawner
   - Magnet
+  - Flash
   layers:
   - Default
   - TransparentFX

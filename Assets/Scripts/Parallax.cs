@@ -10,18 +10,18 @@ public class Parallax : MonoBehaviour
     float initialSpeed;
     float parallaxSpeed;
     
-    Player player;
+    GameManager gameManager;
     private void Awake()
     {
         meshRenderer = GetComponent<MeshRenderer>();
-        player = GameObject.Find("Player").GetComponent<Player>();
-        initialSpeed = player.speed;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        initialSpeed = gameManager.Speed;
     }
 
 
     void FixedUpdate()
     {
-        parallaxSpeed = player.speed * parallaxDepth / (12 * initialSpeed);
+        parallaxSpeed = gameManager.Speed * parallaxDepth / (12 * initialSpeed);
         meshRenderer.material.mainTextureOffset += new Vector2(parallaxSpeed * Time.deltaTime, 0);
     }
 }
