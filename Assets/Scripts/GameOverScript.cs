@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class GameOverScript : MonoBehaviour
 {
+    GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     public TextMeshProUGUI pointsText;
 
     public void RestartGame(){
@@ -19,6 +20,6 @@ public class GameOverScript : MonoBehaviour
 
     public void Setup(){
         gameObject.SetActive(true);
-        pointsText.text = "Distance: " + Player.dist.ToString();
+        pointsText.text = "Distance: " + gameManager.Distance.ToString();
     }
 }

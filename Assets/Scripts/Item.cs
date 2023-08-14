@@ -9,19 +9,19 @@ public class Item : MonoBehaviour
     float movSpeed;
     Rigidbody2D rigid;
 
-    Player player;
+    GameManager gameManager;
     void Start()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
-        initialSpeed = player.speed;
-        speed = player.speed / 2;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        initialSpeed = gameManager.Speed;
+        speed = gameManager.Speed / 2;
         rigid = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        movSpeed = player.speed * speed / (5f * initialSpeed);
+        movSpeed = gameManager.Speed * speed / (5f * initialSpeed);
         rigid.position = Vector3.Lerp(transform.position, transform.position + Vector3.left * movSpeed, 0.2f);
     }
 

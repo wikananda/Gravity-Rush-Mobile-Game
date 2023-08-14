@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Missile : MonoBehaviour
 {
-    Player player;
+    GameManager gameManager;
     float speed = 1f;
 
     void Start()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
-        speed = player.speed / 7;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        speed = gameManager.Speed / 7;
     }
 
     private void FixedUpdate() 
