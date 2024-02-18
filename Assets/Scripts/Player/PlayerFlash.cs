@@ -45,7 +45,7 @@ public class PlayerFlash : MonoBehaviour
             transform.position = new Vector3(transform.position.x, downPos.y, 0);
         }
 
-        shield.ShieldOn(1f, 1); // Give mini shield during teleporting
+        shield.ShieldOn(.2f, 1); // Give mini shield during teleporting
     }
 
     private void OnTriggerStay2D(Collider2D other) {
