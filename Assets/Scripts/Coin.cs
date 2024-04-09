@@ -21,7 +21,6 @@ public class Coin : MonoBehaviour
     {
         if (magnet.Magnet)
         {
-            coinColl.radius = 0.05f;
             speed = magnet.MagnetSpeed * Time.fixedDeltaTime;
             if (Vector3.Distance(transform.position, player.transform.position) < 5.5f)
             {
