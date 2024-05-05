@@ -5,7 +5,7 @@ using UnityEngine;
 public class CoinSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject coinPrefab;
-    [SerializeField] private List<Collider2D> spawnColliders;
+    [SerializeField] private List<BoxCollider2D> spawnColliders;
 
     // private List<GameObject> coins = new List<GameObject>();
 
@@ -14,22 +14,24 @@ public class CoinSpawner : MonoBehaviour
     public float spacingX = 1.0f;
     public float spacingY = 1.0f;
     
-    public void SpawnCoins(Collider2D spawnCollider)
+    public void SpawnCoins(BoxCollider2D spawnCollider)
     {
         Vector3 startPosition = spawnCollider.bounds.min;
         Debug.Log("startPosition: " + startPosition);
         GameObject coinContainer = new GameObject("Coins");
         coinContainer.transform.position = spawnCollider.transform.position;
+        float centerY = spawnCollider.size.y / 2; // Make coin spawn in the middle to Y axis of the SpawnCollider
+        // Debug.Log("CenterY collider: " + centerY);
         for (int x = 0; x < gridX; x++)
         {
             for (int y = 0; y < gridY; y++)
             {
-                Vector3 spawnPosition = startPosition + new Vector3(x * spacingX, y * spacingY, 0);
-                Debug.Log("Spawning coin at " + spawnPosition);
+                Vector3 spawnPosition = startPosition + new Vector3(x * spacingX, (y + centerY) * spacingY, 0);
+                // Debug.Log("Spawning coin at " + spawnPosition);
 
                 if (spawnCollider.bounds.Contains(spawnPosition))
                 {
-                    Debug.Log("Coin spawned inside collider");
+                    // Debug.Log("Coin spawned inside collider");
                     GameObject newCoin = Instantiate(coinPrefab, spawnPosition, Quaternion.identity, coinContainer.transform);
                 }
             }
@@ -54,15 +56,15 @@ public class CoinSpawner : MonoBehaviour
         
         for (int i = 0; i < spawnerCount; i++)
         {
-            int spawnerIndex = rand.Next(0, spawnColliders.Count);
-            Debug.Log("Spawner index: " + spawnerIndex);
-            if (indexToSpawned.Count < spawnerCount)
+            int spawnerIndex = rand.Next(0, spawnColliders.Count); // Pick how many collider to spawn coins
+            // Debug.Log("Spawner index: " + spawnerIndex);
+            if (indexToSpawned.Count < spawnerCount) // check the # of collider set to spawn coins
             {
-                while(!indexToSpawned.Contains(spawnerIndex))
+                while(!indexToSpawned.Contains(spawnerIndex)) // No storing existing collider
                 {
                     gridX = (int)(spawnColliders[spawnerIndex].bounds.size.x / coinSize);
                     indexToSpawned.Add(spawnerIndex);
-                    SpawnCoins(spawnColliders[spawnerIndex]);
+                    SpawnCoins(spawnColliders[spawnerIndex]); // spawn coin on that collider
                 }
             }
         }

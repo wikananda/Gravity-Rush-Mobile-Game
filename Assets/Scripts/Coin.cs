@@ -29,7 +29,7 @@ public class Coin : MonoBehaviour
         }
         else
         {
-            coinColl.radius = 0.7f;
+            coinColl.radius = 0.16f;
         }
     }
 

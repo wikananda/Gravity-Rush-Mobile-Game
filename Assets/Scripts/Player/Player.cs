@@ -27,6 +27,15 @@ public class Player : MonoBehaviour
     int gravityDirection = 1;
     [SerializeField] float gravityScale = 6.4106f;
     [SerializeField] float fallMultiplier = 2.5f;
+    [SerializeField] float rotationSpeed = 1f;
+    // [SerializeField]float rotationDuration = 0.35f;
+    // float rotationTime = 0f;
+
+    // FOR REFERENCE (ANGLE ROTATION)
+    float r;
+    bool isJumping = false;
+    float currentRigidRotation = 0f;
+    Animator animator;
 
     // START & UPDATE ============================
     void Start()
@@ -44,10 +53,15 @@ public class Player : MonoBehaviour
         initialXPos = initialPos.x;
 
         rigid.gravityScale = gravityScale;
+
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
+        Quaternion currentRotation = transform.rotation;
+        Quaternion targetRotation = transform.rotation;
+
         if (initialPos.x != transform.position.x)
         {
             Vector3 targetPos = transform.position;
@@ -56,6 +70,23 @@ public class Player : MonoBehaviour
         }
 
         JumpGravity();
+
+        // Always check for grounded
+        if (IsGrounded())
+        {
+            animator.SetBool("Airborne", false);
+            ResetJumpAnim();
+        }
+        else
+        {
+            animator.SetBool("Airborne", true);
+        }
+
+        // Rotating when jumping
+        rigid.rotation = Mathf.Lerp(rigid.rotation, currentRigidRotation, rotationSpeed * Time.deltaTime);
+
+        
+
         BetterFall(); // Make falling speed faster
 
         if (food.FoodEaten >= 3)
@@ -84,6 +115,12 @@ public class Player : MonoBehaviour
     }
 
     // METHODS ============================
+    public void ResetJumpAnim()
+    {
+        isJumping = false;
+        animator.SetBool("Jump", false);
+    }
+
     void BetterFall()
     {
         if (rigid.velocity.y < 0 && gravityDirection > 0)
@@ -101,31 +138,47 @@ public class Player : MonoBehaviour
         RaycastHit2D raycastGround = Physics2D.BoxCast(coll.bounds.center, 
                                                        coll.bounds.size,
                                                        0f,
-                                                       Vector2.up * gravityDirection,
+                                                       Vector2.up * -gravityDirection,
                                                        0.15f,
                                                        LayerMask.GetMask("Ground"));
         bool grounded = raycastGround.collider != null;
         return grounded;
     }
 
+    public void Rotate()
+    {
+        // Preparing for rotation
+        Vector3 yRotate = new Vector3(0, gravityDirection * -180, 0);
+        transform.Rotate(yRotate);
+        currentRigidRotation += gravityDirection * 180;
+    }
+
     void JumpGravity()
     {
+
         if(Input.GetKeyDown(KeyCode.Mouse0))
         {
+            Debug.Log("Grounded: " + IsGrounded());
             gravityDirection *= -1;
             rigid.gravityScale *= -1;
-            
+
+            Rotate();
+          
             if (flash.Flash)
             {
                 flash.FlashMove(gravityDirection);
             }
             else if(IsGrounded())
             {
+                // Debug.Log("Jumping");
+                animator.SetBool("Jump", true);
+                isJumping = true;
                 rigid.AddForce(Vector3.up * -jumpForceGrounded * gravityDirection, ForceMode2D.Impulse);
                 Debug.Log("Ground Jump");
             }
             else
             {
+                // animator.SetBool("Airborne", true);
                 rigid.gravityScale = 0;
                 rigid.velocity = Vector3.zero;
                 rigid.AddForce(Vector3.up * jumpForceAir * gravityDirection, ForceMode2D.Impulse);
