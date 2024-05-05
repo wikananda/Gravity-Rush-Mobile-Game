@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     // ABILITY PROPERTIES ====================
     [SerializeField] float jumpForceGrounded = 10f;
     [SerializeField] float jumpForceAir = 20f;
-    [SerializeField] float missileBounce = 80f;
+    [SerializeField] float missileBounce = 180f;
 
     // GAME PROPERTIES =====================
     int gravityDirection = 1;
@@ -98,13 +98,13 @@ public class Player : MonoBehaviour
         if (gameManager.Speed > 10f && gameManager.Speed < 13f)
         {
             gameManager.Level = 2;
-            missileBounce = 60f;
+            // missileBounce = 195f;
             return;
         }
         else if (gameManager.Speed > 13f && gameManager.Speed < 16f)
         {
             gameManager.Level = 3;
-            missileBounce = 115f;
+            // missileBounce = 210f;
             return;
         }
         else if (gameManager.Speed > 16f)
@@ -206,14 +206,12 @@ public class Player : MonoBehaviour
             Vector3 normal = (transform.position - collision.transform.position);
             normal.x = 0;
             normal.z = 0;
-            if (normal.y > 0)
-            {
-                normal.y = 1;
-            }
-            else if (normal.y < 0)
-            {
-                normal.y = -1;
-            }
+            normal = normal.normalized;
+
+            // Reset the player's velocity so the bounce will be consistent
+            rigid.velocity = new Vector2(rigid.velocity.x, 0);
+
+            Debug.Log("Normal: " + normal);
             rigid.AddForce(normal * missileBounce, ForceMode2D.Impulse);
             gameui.ScoreUp(10 * gameManager.Level);
             Destroy(collision.gameObject);
