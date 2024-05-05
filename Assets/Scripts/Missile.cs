@@ -7,6 +7,12 @@ public class Missile : MonoBehaviour
     GameManager gameManager;
     float speed = 1f;
 
+    public float Speed
+    {
+        get => speed;
+        set => speed = value;
+    }
+
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();

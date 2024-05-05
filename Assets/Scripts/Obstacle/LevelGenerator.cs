@@ -44,7 +44,7 @@ public class LevelGenerator : MonoBehaviour
             lastStartPosition = chosenLevelPart.Find("StartPosition").transform.TransformPoint(Vector3.zero);
             Debug.Log("Spawning : " + chosenLevelPart.name);
             Debug.Log("last start pos : " + lastStartPosition);
-            Debug.Log("Spawn Position : " + new Vector3(lastEndPosition.x + Mathf.Abs(lastStartPosition.x), lastEndPosition.y, -10));
+            Debug.Log("Spawn Position : " + new Vector3(lastEndPosition.x + Mathf.Abs(lastStartPosition.x), lastEndPosition.y, -1));
             lastLevelPartTransform = SpawnLevelPart(chosenLevelPart, new Vector3(lastEndPosition.x + Mathf.Abs(lastStartPosition.x), lastEndPosition.y, -10));
             // lastEndPosition = lastLevelPartTransform.Find("EndPosition").transform.TransformPoint(Vector3.zero);
         }
