@@ -17,8 +17,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] float speed = 7f;
     [SerializeField] GameState state;
     [SerializeField] int level;
+    [SerializeField] bool maxed = false; // This info could be useful...
 
     // ENUMS =======================
+    public bool Maxed
+    {
+        get => maxed;
+        set => maxed = value;
+    }
+    public float Acceleration
+    {
+        get => acceleration;
+        set => acceleration = value;
+    }
     public float MaxSpeed
     {
         get => maxSpeed;
@@ -74,6 +85,7 @@ public class GameManager : MonoBehaviour
         if (speed > maxSpeed)
         {
             speed = maxSpeed;
+            maxed = true;
         }
     }
 

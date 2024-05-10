@@ -6,6 +6,7 @@ public class Missile : MonoBehaviour
 {
     GameManager gameManager;
     float speed = 1f;
+    float acceleration = 1f;
 
     public float Speed
     {
@@ -16,6 +17,7 @@ public class Missile : MonoBehaviour
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        acceleration = gameManager.Acceleration; // still not used further
         speed = gameManager.Speed / 7;
     }
 

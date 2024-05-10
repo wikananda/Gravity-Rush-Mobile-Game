@@ -685,6 +685,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   missilePrefab: {fileID: 8465498921814091343, guid: 6aa391b32196758418cb914b06febddf, type: 3}
+  rocketSpeed: 2
+  missileTimer: 0
+  acceleration: 1
 --- !u!61 &340354661
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2327,12 +2330,13 @@ MonoBehaviour:
   shield: {fileID: 2334213697863279860, guid: b6f333e20ec7a8a4881de8ef3317b8d1, type: 3}
   rocket: {fileID: 2334213697863279860, guid: ec67f4dc3f577074caad1bd9ec1053b1, type: 3}
   player: {fileID: 72894390}
-  acceleration: 1
+  acceleration: 0.5
   maxSpeed: 17.5
   distance: 0
   speed: 7
   state: 0
   level: 0
+  maxed: 0
 --- !u!1001 &1258486733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4450,7 +4454,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8608170404033004975, guid: dc56183e69a3f864185bdea7a0435b5f, type: 3}
       propertyPath: missileBounce
-      value: 75
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8608170404033004976, guid: dc56183e69a3f864185bdea7a0435b5f, type: 3}
       propertyPath: m_Name
